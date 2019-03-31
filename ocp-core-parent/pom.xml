@@ -96,6 +96,6 @@
 	</build>
 	<modules>
 		<module>../ocp-core-bom</module>
-		<module>../ocp-core-repository</module>
+		<module>../ocp-core-base-service</module>
 	</modules>
 </project>

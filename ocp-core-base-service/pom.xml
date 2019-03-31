@@ -9,7 +9,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../ocp-core-parent</relativePath>
 	</parent>
-	<artifactId>ocp-core-repository</artifactId>
+	<artifactId>ocp-core-base-service</artifactId>
 	<url>http://maven.apache.org</url>
 	<properties>
 	</properties>
