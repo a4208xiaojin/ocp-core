@@ -2,9 +2,9 @@ package com.nbd.ocp.core.jpa;
 
 import com.alibaba.fastjson.JSON;
 import com.nbd.ocp.core.jpa.dao.UserDo;
-import com.nbd.ocp.core.jpa.service.IUserService;
+import com.nbd.ocp.core.jpa.service.IOcpUserService;
 import com.nbd.ocp.core.repository.OcpRepositoryImpl;
-import com.nbd.ocp.core.repository.multiTenancy.context.TenantContextHolder;
+import com.nbd.ocp.core.repository.multiTenancy.context.OcpTenantContextHolder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +25,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class JpaApplicationTest {
 
 	@Autowired
-	IUserService userService;
+	IOcpUserService userService;
 
 	@Test
 	@Order(3)
 	public void save() {
-		TenantContextHolder.setTenant("nbd1");
+		OcpTenantContextHolder.setTenant("nbd1");
 		UserDo userDO =new UserDo();
 		userDO.setEmail("d");
 		userDO.setPassword("ddd");
@@ -38,7 +38,7 @@ public class JpaApplicationTest {
 		userDO.setLocked(false);
 		UserDo userVO =userService.save(userDO);
 		System.out.println(userVO);
-		TenantContextHolder.setTenant("nbd");
+		OcpTenantContextHolder.setTenant("nbd");
 		UserDo userDO1 =new UserDo();
 		userDO1.setEmail("d");
 		userDO1.setPassword("ddd");
@@ -52,9 +52,9 @@ public class JpaApplicationTest {
 	@Test
 	@Order(0)
 	public void list() {
-		TenantContextHolder.setTenant("nbd1");
+		OcpTenantContextHolder.setTenant("nbd1");
 		System.out.println(JSON.toJSONString(userService.findAll().size()));
-		TenantContextHolder.setTenant("nbd");
+		OcpTenantContextHolder.setTenant("nbd");
 		System.out.println(JSON.toJSONString(userService.findAll().size()));
 		System.out.println(JSON.toJSONString(userService.listUsers().size()));
 

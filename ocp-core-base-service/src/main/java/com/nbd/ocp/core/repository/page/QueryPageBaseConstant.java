@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.jpa.service;
+package com.nbd.ocp.core.repository.page;
 /*
                        _ooOoo_
                       o8888888o
@@ -22,21 +22,7 @@ package com.nbd.ocp.core.jpa.service;
              佛祖保佑       永无BUG
 */
 
+public class QueryPageBaseConstant {
+    public static String VO_FIELD_FILTER_METHOD="method_name_segment_1";
 
-import com.nbd.ocp.core.jpa.dao.IUserDao;
-import com.nbd.ocp.core.jpa.dao.UserDo;
-import com.nbd.ocp.core.repository.base.IBaseService;
-
-import java.util.Collection;
-import java.util.List;
-
-/**
- * @author jin
- */
-public interface IUserService extends IBaseService<UserDo, IUserDao> {
-    List<UserDo> findAll();
-
-    UserDo save(UserDo userDO);
-
-    List<UserDo> listUsers();
 }

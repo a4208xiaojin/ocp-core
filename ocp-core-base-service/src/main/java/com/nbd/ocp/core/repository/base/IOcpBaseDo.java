@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.jpa.dao;
+package com.nbd.ocp.core.repository.base;
 /*
                        _ooOoo_
                       o8888888o
@@ -23,15 +23,18 @@ package com.nbd.ocp.core.jpa.dao;
 */
 
 
-import com.nbd.ocp.core.repository.base.IBaseDao;
-import org.springframework.data.jpa.repository.Query;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
-import java.util.List;
+import javax.persistence.MappedSuperclass;
+import java.io.Serializable;
 
 /**
- * @author jin
+ * 基本do 平台和业务所有的do都要继承于此do
+ * @author jhb
  */
-public interface IUserDao  extends IBaseDao<UserDo, String> {
-    @Query(value = "select useDo from UserDo useDo")
-    List<UserDo> listUsers();
+@MappedSuperclass
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public interface IOcpBaseDo extends Serializable {
+
+
 }

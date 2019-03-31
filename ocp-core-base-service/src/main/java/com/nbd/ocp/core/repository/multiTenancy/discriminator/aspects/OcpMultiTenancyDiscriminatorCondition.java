@@ -23,7 +23,7 @@ package com.nbd.ocp.core.repository.multiTenancy.discriminator.aspects;
 */
 
 
-import com.nbd.ocp.core.repository.multiTenancy.constant.MultiTenancyEnum;
+import com.nbd.ocp.core.repository.multiTenancy.constant.OcpMultiTenancyEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
@@ -33,7 +33,7 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
  * @author jin
  */
 
-public class MultiTenancyDiscriminatorCondition implements Condition {
+public class OcpMultiTenancyDiscriminatorCondition implements Condition {
 
 
     @Override
@@ -42,7 +42,7 @@ public class MultiTenancyDiscriminatorCondition implements Condition {
         if(StringUtils.isEmpty(mode)){
             return false;
         }
-        if( MultiTenancyEnum.DISCRIMINATOR_MODE.getMode().equals(mode.toLowerCase())){
+        if( OcpMultiTenancyEnum.DISCRIMINATOR_MODE.getMode().equals(mode.toLowerCase())){
             return true;
         }
         return false;

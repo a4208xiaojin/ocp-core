@@ -19,8 +19,8 @@ import java.util.Map;
  */
 @Component
 @Lazy(false)
-public class SpringUtil implements ApplicationContextAware {
-    private static Logger             logger = LoggerFactory.getLogger(SpringUtil.class);
+public class OcpSpringUtil implements ApplicationContextAware {
+    private static Logger             logger = LoggerFactory.getLogger(OcpSpringUtil.class);
     private static ApplicationContext applicationContext;
  
     public static ApplicationContext getApplicationContext() {
@@ -77,11 +77,11 @@ public class SpringUtil implements ApplicationContextAware {
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        if (SpringUtil.applicationContext == null) {
-            SpringUtil.applicationContext = applicationContext;
+        if (OcpSpringUtil.applicationContext == null) {
+            OcpSpringUtil.applicationContext = applicationContext;
         }
     }
  
-    private SpringUtil() {
+    private OcpSpringUtil() {
     }
 }

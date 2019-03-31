@@ -3,7 +3,7 @@ package com.nbd.ocp.core.repository.multiTenancy.constant;
 /**
  * Created by Administrator on 2019/2/15.
  */
-public enum MultiTenancyEnum {
+public enum OcpMultiTenancyEnum {
 
 
     /**
@@ -22,7 +22,7 @@ public enum MultiTenancyEnum {
     private String mode;
 
 
-    MultiTenancyEnum(String mode){
+    OcpMultiTenancyEnum(String mode){
         this.mode = mode;
     }
 

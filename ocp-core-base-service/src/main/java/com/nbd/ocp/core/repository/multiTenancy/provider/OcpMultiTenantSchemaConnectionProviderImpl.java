@@ -1,6 +1,6 @@
 package com.nbd.ocp.core.repository.multiTenancy.provider;
 
-import com.nbd.ocp.core.repository.multiTenancy.context.TenantContextHolder;
+import com.nbd.ocp.core.repository.multiTenancy.context.OcpTenantContextHolder;
 import lombok.Data;
 import org.hibernate.engine.jdbc.connections.spi.AbstractDataSourceBasedMultiTenantConnectionProviderImpl;
 import org.slf4j.Logger;
@@ -9,8 +9,6 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 
 import javax.sql.DataSource;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -19,17 +17,17 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author lanyuanxiaoyao
  * @version 1.0
  */
-public class MultiTenantSchemaConnectionProviderImpl extends AbstractDataSourceBasedMultiTenantConnectionProviderImpl {
-    private static final Logger logger= LoggerFactory.getLogger(MultiTenantSchemaConnectionProviderImpl.class);
+public class OcpMultiTenantSchemaConnectionProviderImpl extends AbstractDataSourceBasedMultiTenantConnectionProviderImpl {
+    private static final Logger logger= LoggerFactory.getLogger(OcpMultiTenantSchemaConnectionProviderImpl.class);
     private static ConcurrentHashMap<String, DataSource> dataSourceMap = new ConcurrentHashMap<>();
     private static DataConfig dataConfigModel;
-    public  MultiTenantSchemaConnectionProviderImpl(){
+    public OcpMultiTenantSchemaConnectionProviderImpl(){
         initDefaultConnectionProviderForTenant();
     }
     // 在没有提供tenantId的情况下返回默认数据源
     @Override
     protected DataSource selectAnyDataSource() {
-        return getTenantDataSource(TenantContextHolder.getContext().getTenantId());
+        return getTenantDataSource(OcpTenantContextHolder.getContext().getTenantId());
     }
     static {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();

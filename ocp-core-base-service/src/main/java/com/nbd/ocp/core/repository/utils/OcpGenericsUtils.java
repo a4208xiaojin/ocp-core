@@ -29,13 +29,12 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author jhb
  */
-public class GenericsUtils {
-    private static final Logger logger= LoggerFactory.getLogger(GenericsUtils.class);
+public class OcpGenericsUtils {
+    private static final Logger logger= LoggerFactory.getLogger(OcpGenericsUtils.class);
     private static final ConcurrentHashMap<String,String> DAO_NAME= new ConcurrentHashMap<>();
     /**
      * 通过反射, 获得定义Class时声明的父类的泛型参数的类型. 如无法找到, 返回Object.class.

@@ -3,7 +3,7 @@ package com.nbd.ocp.core.repository.multiTenancy.constant;
 /**
  * Created by Administrator on 2019/2/15.
  */
-public enum DbTypeEnum {
+public enum OcpDbTypeEnum {
 
 
     /**
@@ -18,7 +18,7 @@ public enum DbTypeEnum {
     private String type;
 
 
-    DbTypeEnum(String type){
+    OcpDbTypeEnum(String type){
         this.type = type;
     }
 

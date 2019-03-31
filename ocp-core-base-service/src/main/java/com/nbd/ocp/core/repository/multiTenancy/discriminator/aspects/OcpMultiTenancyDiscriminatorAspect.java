@@ -1,9 +1,9 @@
 package com.nbd.ocp.core.repository.multiTenancy.discriminator.aspects;
 
-import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.CurrentTenant;
-import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.Tenant;
-import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.WithoutTenant;
-import com.nbd.ocp.core.repository.multiTenancy.context.TenantContextHolder;
+import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpCurrentTenant;
+import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpTenant;
+import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpWithoutTenant;
+import com.nbd.ocp.core.repository.multiTenancy.context.OcpTenantContextHolder;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -21,17 +21,17 @@ import java.lang.reflect.Method;
 
 @Aspect
 @Component
-@Conditional(MultiTenancyDiscriminatorCondition.class)
-public class MultiTenancyDiscriminatorAspect {
+@Conditional(OcpMultiTenancyDiscriminatorCondition.class)
+public class OcpMultiTenancyDiscriminatorAspect {
 
 
-  @Pointcut(value = "(@within(com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.CurrentTenant) || @annotation(com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.CurrentTenant))")
+  @Pointcut(value = "(@within(com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpCurrentTenant) || @annotation(com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpCurrentTenant))")
   void hasCurrentTenantAnnotation() {}
 
-  @Pointcut(value = "@within(com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.Tenant) || @annotation(com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.Tenant)")
+  @Pointcut(value = "@within(com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpTenant) || @annotation(com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpTenant)")
   void hasTenantAnnotation() {}
 
-  @Pointcut(value = "@within(com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.WithoutTenant) || @annotation(com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.WithoutTenant)")
+  @Pointcut(value = "@within(com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpWithoutTenant) || @annotation(com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpWithoutTenant)")
   void hasWithoutTenantAnnotation() {}
 
   @Pointcut(value = "hasCurrentTenantAnnotation() || hasTenantAnnotation() || hasWithoutTenantAnnotation()")
@@ -52,10 +52,10 @@ public class MultiTenancyDiscriminatorAspect {
       if (multiTenantAnnotation == null) {
         multiTenantAnnotation = getMultiTenantAnnotation(method.getDeclaringClass());
       }
-      if (multiTenantAnnotation != null && !(multiTenantAnnotation instanceof WithoutTenant)) {
-        String tenantId = TenantContextHolder.getContext().getTenantId();
-        if (multiTenantAnnotation instanceof Tenant) {
-          tenantId = ((Tenant) multiTenantAnnotation).value();
+      if (multiTenantAnnotation != null && !(multiTenantAnnotation instanceof OcpWithoutTenant)) {
+        String tenantId = OcpTenantContextHolder.getContext().getTenantId();
+        if (multiTenantAnnotation instanceof OcpTenant) {
+          tenantId = ((OcpTenant) multiTenantAnnotation).value();
         }
         org.hibernate.Filter filter = entityManager.unwrap(Session.class).enableFilter("tenantFilter");
         filter.setParameter("tenantId", tenantId);
@@ -65,15 +65,15 @@ public class MultiTenancyDiscriminatorAspect {
   }
 
   private Annotation getMultiTenantAnnotation(AnnotatedElement element) {
-    Annotation annotation = element.getAnnotation(CurrentTenant.class);
+    Annotation annotation = element.getAnnotation(OcpCurrentTenant.class);
     if (annotation != null) {
       return annotation;
     }
-    annotation = element.getAnnotation(Tenant.class);
+    annotation = element.getAnnotation(OcpTenant.class);
     if (annotation != null) {
       return annotation;
     }
-    annotation = element.getAnnotation(WithoutTenant.class);
+    annotation = element.getAnnotation(OcpWithoutTenant.class);
     if (annotation != null) {
       return annotation;
     }

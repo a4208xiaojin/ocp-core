@@ -1,6 +1,6 @@
 package com.nbd.ocp.core.repository.multiTenancy.resolver;
 
-import com.nbd.ocp.core.repository.multiTenancy.context.TenantContextHolder;
+import com.nbd.ocp.core.repository.multiTenancy.context.OcpTenantContextHolder;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 
 /**
@@ -8,12 +8,12 @@ import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
  * @author lanyuanxiaoyao
  * @version 1.0
  */
-public class MultiTenantIdentifierResolver implements CurrentTenantIdentifierResolver{
+public class OcpMultiTenantIdentifierResolver implements CurrentTenantIdentifierResolver{
 
     // 获取tenantId的逻辑在这个方法里面写
     @Override
     public String resolveCurrentTenantIdentifier() {
-        return TenantContextHolder.getContext().getTenantId();
+        return OcpTenantContextHolder.getContext().getTenantId();
     }
 
     @Override

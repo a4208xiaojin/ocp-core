@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.jpa.service.impl;
+package com.nbd.ocp.core.jpa.service;
 /*
                        _ooOoo_
                       o8888888o
@@ -25,38 +25,17 @@ package com.nbd.ocp.core.jpa.service.impl;
 
 import com.nbd.ocp.core.jpa.dao.IOcpUserDao;
 import com.nbd.ocp.core.jpa.dao.UserDo;
-import com.nbd.ocp.core.jpa.service.IOcpUserService;
-import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpCurrentTenant;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import com.nbd.ocp.core.repository.base.IOcpBaseService;
 
 import java.util.List;
 
 /**
  * @author jin
  */
-@Service
-@Transactional(readOnly = true)
-@OcpCurrentTenant
-public class UserServiceImpl implements IOcpUserService {
-    @Autowired
-    IOcpUserDao userDao;
-    @Override
-    public List<UserDo> findAll() {
-        return userDao.findAll();
-    }
+public interface IOcpUserService extends IOcpBaseService<UserDo, IOcpUserDao> {
+    List<UserDo> findAll();
 
-    @Override
-    @Transactional
-    public UserDo save(UserDo userDO) {
-        return userDao.save(userDO);
-    }
+    UserDo save(UserDo userDO);
 
-    @Override
-    public List<UserDo> listUsers() {
-        return userDao.listUsers();
-    }
-
-
+    List<UserDo> listUsers();
 }

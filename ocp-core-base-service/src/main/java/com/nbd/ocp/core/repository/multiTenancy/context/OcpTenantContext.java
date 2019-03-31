@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TenantContext {
+public class OcpTenantContext {
 
   private String tenantId;
 

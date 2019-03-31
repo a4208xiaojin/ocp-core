@@ -1,6 +1,6 @@
 package com.nbd.ocp.core.repository.multiTenancy.database;
 
-import com.nbd.ocp.core.repository.multiTenancy.context.TenantContextHolder;
+import com.nbd.ocp.core.repository.multiTenancy.context.OcpTenantContextHolder;
 import org.hibernate.engine.jdbc.connections.spi.AbstractDataSourceBasedMultiTenantConnectionProviderImpl;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 
@@ -13,12 +13,12 @@ import java.util.Map;
  * @author lanyuanxiaoyao
  * @version 1.0
  */
-public class MultiTenantDataBaseConnectionProviderImpl extends AbstractDataSourceBasedMultiTenantConnectionProviderImpl {
+public class OcpMultiTenantDataBaseConnectionProviderImpl extends AbstractDataSourceBasedMultiTenantConnectionProviderImpl {
     private static Map<String, DataSource> dataSourceMap = new HashMap<>();
     // 在没有提供tenantId的情况下返回默认数据源
     @Override
     protected DataSource selectAnyDataSource() {
-        return getTenantDataSource(TenantContextHolder.getContext().getTenantId());
+        return getTenantDataSource(OcpTenantContextHolder.getContext().getTenantId());
     }
 
     // 提供了tenantId的话就根据ID来返回数据源

@@ -1,5 +1,4 @@
-package com.nbd.ocp.core.repository.base;
-
+package com.nbd.ocp.core.repository.page;
 /*
                        _ooOoo_
                       o8888888o
@@ -23,25 +22,26 @@ package com.nbd.ocp.core.repository.base;
              佛祖保佑       永无BUG
 */
 
-
-import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.CurrentTenant;
-import com.nbd.ocp.core.repository.utils.GenericsUtils;
-import com.nbd.ocp.core.repository.utils.SpringUtil;
-import org.springframework.transaction.annotation.Transactional;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
  * @author jhb
  */
-@Transactional(readOnly = true)
-@CurrentTenant
-public interface IBaseService<T extends BaseDo,I extends IBaseDao> {
-    default I getBaseDAO(){
-        return (I) SpringUtil.getBean(GenericsUtils.getSuperClassGenericsType(getClass(), IBaseDao.class));
-    }
-    default List<T> getA() {
-        return getBaseDAO().getA();
-    }
+@Data
+@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class QueryPageBaseVo  {
+    private Map<String,Object> parameters;
+    private List<String> ids;
+    private     List<Integer>      statusList;
+    private     Map<String,String> sortMap;
+    private     Map<String,String> extension;
+    private Integer                      pageIndex = 0;
+    private Integer                      pageSize = 10;
 }

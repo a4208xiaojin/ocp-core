@@ -1,5 +1,7 @@
 package com.nbd.ocp.core.repository;
 
+import com.nbd.ocp.core.repository.page.QueryPageBaseVo;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
@@ -11,6 +13,8 @@ import java.util.List;
 public interface OcpRepository<T, ID extends Serializable>
   extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
 
-      List<T> getA();
+      Page<T> page(final QueryPageBaseVo queryPageBaseVo);
+
+      List<T> list(QueryPageBaseVo queryBaseVo);
 
 }

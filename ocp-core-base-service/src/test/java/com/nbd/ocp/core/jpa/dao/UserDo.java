@@ -25,7 +25,7 @@ package com.nbd.ocp.core.jpa.dao;
              佛祖保佑       永无BUG
 */
 
-import com.nbd.ocp.core.repository.multiTenancy.discriminator.entity.AbstractTenancyEntity;
+import com.nbd.ocp.core.repository.multiTenancy.discriminator.entity.AbstractOcpTenancyEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -52,7 +52,7 @@ import java.time.Instant;
 @Table(name="nbd_user_tenancy")
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper=false)
-public class UserDo  extends AbstractTenancyEntity {
+public class UserDo  extends AbstractOcpTenancyEntity {
     @Id
     @GenericGenerator(name="system-uuid", strategy = "uuid.hex")
     @GeneratedValue(generator="system-uuid")
