@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * @author jin
  */
-public interface IOcpUserDao extends IOcpBaseDao<UserDo, String> {
-    @Query(value = "select useDo from UserDo useDo")
-    List<UserDo> listUsers();
+public interface IOcpUserDao extends IOcpBaseDao<OcpUserDo, String> {
+    @Query(value = "select useDo from OcpUserDo useDo")
+    List<OcpUserDo> listUsers();
 }

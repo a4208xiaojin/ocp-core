@@ -24,7 +24,7 @@ package com.nbd.ocp.core.jpa.service;
 
 
 import com.nbd.ocp.core.jpa.dao.IOcpUserDao;
-import com.nbd.ocp.core.jpa.dao.UserDo;
+import com.nbd.ocp.core.jpa.dao.OcpUserDo;
 import com.nbd.ocp.core.repository.base.IOcpBaseService;
 
 import java.util.List;
@@ -32,10 +32,10 @@ import java.util.List;
 /**
  * @author jin
  */
-public interface IOcpUserService extends IOcpBaseService<UserDo, IOcpUserDao> {
-    List<UserDo> findAll();
+public interface IOcpUserService extends IOcpBaseService<OcpUserDo, IOcpUserDao> {
+    List<OcpUserDo> findAll();
 
-    UserDo save(UserDo userDO);
+    OcpUserDo save(OcpUserDo userDO);
 
-    List<UserDo> listUsers();
+    List<OcpUserDo> listUsers();
 }

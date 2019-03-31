@@ -1,7 +1,7 @@
 package com.nbd.ocp.core.jpa;
 
 import com.alibaba.fastjson.JSON;
-import com.nbd.ocp.core.jpa.dao.UserDo;
+import com.nbd.ocp.core.jpa.dao.OcpUserDo;
 import com.nbd.ocp.core.jpa.service.IOcpUserService;
 import com.nbd.ocp.core.repository.OcpRepositoryImpl;
 import com.nbd.ocp.core.repository.multiTenancy.context.OcpTenantContextHolder;
@@ -22,7 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @Rollback(false)
 @ComponentScan(basePackages="com.nbd.ocp.core.jpa")
 @EnableJpaRepositories( basePackages = "com.nbd.ocp.core.jpa",repositoryBaseClass= OcpRepositoryImpl.class)
-public class JpaApplicationTest {
+public class OcpJpaApplicationTest {
 
 	@Autowired
 	IOcpUserService userService;
@@ -31,20 +31,20 @@ public class JpaApplicationTest {
 	@Order(3)
 	public void save() {
 		OcpTenantContextHolder.setTenant("nbd1");
-		UserDo userDO =new UserDo();
+		OcpUserDo userDO =new OcpUserDo();
 		userDO.setEmail("d");
 		userDO.setPassword("ddd");
 		userDO.setSalt("ddddd");
 		userDO.setLocked(false);
-		UserDo userVO =userService.save(userDO);
+		OcpUserDo userVO =userService.save(userDO);
 		System.out.println(userVO);
 		OcpTenantContextHolder.setTenant("nbd");
-		UserDo userDO1 =new UserDo();
+		OcpUserDo userDO1 =new OcpUserDo();
 		userDO1.setEmail("d");
 		userDO1.setPassword("ddd");
 		userDO1.setSalt("ddddd");
 		userDO1.setLocked(false);
-		UserDo userVO1 =userService.save(userDO1);
+		OcpUserDo userVO1 =userService.save(userDO1);
 		System.out.println(userVO1);
 
 	}

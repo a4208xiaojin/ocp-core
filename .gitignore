@@ -23,3 +23,12 @@
 hs_err_pid*
 *.DS_Store
 */target/
+
+*/target/
+*/bin/
+*.project
+*.classpath
+*.settings/
+*.iml
+*/overlays/
+*.idea/

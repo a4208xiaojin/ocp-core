@@ -52,7 +52,7 @@ import java.time.Instant;
 @Table(name="nbd_user_tenancy")
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper=false)
-public class UserDo  extends AbstractOcpTenancyEntity {
+public class OcpUserDo  extends AbstractOcpTenancyEntity {
     @Id
     @GenericGenerator(name="system-uuid", strategy = "uuid.hex")
     @GeneratedValue(generator="system-uuid")
