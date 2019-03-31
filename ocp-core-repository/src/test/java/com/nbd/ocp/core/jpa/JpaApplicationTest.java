@@ -56,6 +56,9 @@ public class JpaApplicationTest {
 		System.out.println(JSON.toJSONString(userService.findAll().size()));
 		TenantContextHolder.setTenant("nbd");
 		System.out.println(JSON.toJSONString(userService.findAll().size()));
+		System.out.println(JSON.toJSONString(userService.listUsers().size()));
+
+
 	}
 
 }

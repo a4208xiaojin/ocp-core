@@ -24,9 +24,14 @@ package com.nbd.ocp.core.jpa.dao;
 
 
 import com.nbd.ocp.core.repository.base.IBaseDao;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 /**
  * @author jin
  */
 public interface IUserDao  extends IBaseDao<UserDo, String> {
+    @Query(value = "select useDo from UserDo useDo")
+    List<UserDo> listUsers();
 }
