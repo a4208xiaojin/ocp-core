@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.jpa.service;
+package com.nbd.ocp.core.repository.utils;
 /*
                        _ooOoo_
                       o8888888o
@@ -23,20 +23,9 @@ package com.nbd.ocp.core.jpa.service;
 */
 
 
-import com.nbd.ocp.core.jpa.dao.IOcpUserDao;
-import com.nbd.ocp.core.jpa.entity.OcpUserDo;
-import com.nbd.ocp.core.repository.crud.IOcpCrudBaseService;
-
-import java.util.List;
-
 /**
  * @author jin
  */
-public interface IOcpUserService extends IOcpCrudBaseService<OcpUserDo, IOcpUserDao> {
-    List<OcpUserDo> findAll();
 
-    @Override
-    OcpUserDo save(OcpUserDo userDO);
-
-    List<OcpUserDo> listUsers();
+public class UriParamUtil {
 }

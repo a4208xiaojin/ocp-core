@@ -27,16 +27,15 @@ package com.nbd.ocp.core.repository.base;
 import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpCurrentTenant;
 import com.nbd.ocp.core.repository.utils.OcpGenericsUtils;
 import com.nbd.ocp.core.repository.utils.OcpSpringUtil;
-import org.springframework.transaction.annotation.Transactional;
 
 
 /**
  * @author jhb
  */
-@Transactional(readOnly = true)
+@org.springframework.transaction.annotation.Transactional(readOnly = true,rollbackFor = Exception.class)
 @OcpCurrentTenant
 public interface IOcpBaseService<T extends IOcpBaseDo,I extends IOcpBaseDao> {
     default I getBaseDao(){
-        return (I) OcpSpringUtil.getBean(OcpGenericsUtils.getSuperClassGenericsType(getClass(), IOcpBaseDao.class));
+        return (I) OcpSpringUtil.getBean(OcpGenericsUtils.getDaoSuperClassGenericsType(getClass(), IOcpBaseDao.class));
     }
 }

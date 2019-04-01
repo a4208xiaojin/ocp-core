@@ -32,6 +32,6 @@ import com.nbd.ocp.core.repository.utils.OcpSpringUtil;
 
 public interface IOcpBaseController<T extends IOcpBaseDo,I extends IOcpBaseService> {
     default I getBaseService(){
-        return (I) OcpSpringUtil.getBean(OcpGenericsUtils.getSuperClassGenericsType(getClass(), IOcpBaseService.class));
+        return (I) OcpSpringUtil.getBean(OcpGenericsUtils.getControllerSuperClassGenericsType(getClass(), IOcpBaseService.class));
     }
 }

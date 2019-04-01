@@ -23,6 +23,6 @@ package com.nbd.ocp.core.repository.page;
 */
 
 public class QueryPageBaseConstant {
-    public static String VO_FIELD_FILTER_METHOD="method_name_segment_1";
+    public static String VO_FIELD_FILTER_METHOD="parameters.method_name_segment_1";
 
 }

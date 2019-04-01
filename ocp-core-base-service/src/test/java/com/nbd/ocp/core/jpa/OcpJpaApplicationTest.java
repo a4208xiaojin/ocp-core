@@ -1,10 +1,14 @@
 package com.nbd.ocp.core.jpa;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.nbd.ocp.core.jpa.entity.OcpUserDo;
 import com.nbd.ocp.core.jpa.service.IOcpUserService;
 import com.nbd.ocp.core.repository.OcpRepositoryImpl;
 import com.nbd.ocp.core.repository.multiTenancy.context.OcpTenantContextHolder;
+import com.nbd.ocp.core.repository.page.QueryPageBaseConstant;
+import com.nbd.ocp.core.repository.page.QueryPageBaseVo;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +16,22 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @RunWith(SpringRunner.class)
@@ -26,6 +43,16 @@ public class OcpJpaApplicationTest {
 
 	@Autowired
 	IOcpUserService userService;
+	private MockMvc mockMvc;
+
+	@Autowired
+	private WebApplicationContext wac;
+
+	@Before
+	public void setup() {
+		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+	}
+
 
 	@Test
 	@Order(3)
@@ -57,6 +84,69 @@ public class OcpJpaApplicationTest {
 		OcpTenantContextHolder.setTenant("nbd");
 		System.out.println(JSON.toJSONString(userService.findAll().size()));
 		System.out.println(JSON.toJSONString(userService.listUsers().size()));
+	}
+	@Test
+	public void testAddController() throws Exception {
+		OcpUserDo UserDO =new OcpUserDo();
+		UserDO.setEmail("d");
+		UserDO.setPassword("dddd");
+		UserDO.setSalt("dddddd");
+		UserDO.setLocked(false);
+
+		MvcResult result = mockMvc.perform(post("/user/add").contentType(MediaType.APPLICATION_JSON_UTF8).content(JSONObject.toJSONString(UserDO)))
+				.andExpect(status().isOk())
+				.andReturn();
+		System.out.println(result.getResponse().getContentAsString());
+	}
+
+	@Test
+	public void testPageController() throws Exception {
+		QueryPageBaseVo queryPageBaseVo =new QueryPageBaseVo();
+		queryPageBaseVo.setPageIndex(1);
+		queryPageBaseVo.setPageSize(20);
+
+		Map<String,Object> map=new HashMap<>();
+		map.put(QueryPageBaseConstant.VO_FIELD_FILTER_METHOD,"findByUserNameEqualsOrUserCodeLikeAndPasswordLikeOrIdIn");
+		map.put("userName","aaa");
+		map.put("userCode","bbb");
+		map.put("password","ccc");
+		List<String> ids =new ArrayList<>();
+		ids.add("ddd");
+		ids.add("eee");
+		map.put("id",ids);
+		queryPageBaseVo.setParameters(map);
+		queryPageBaseVo.setIds(ids);
+
+
+		String content=JSONObject.toJSONString(queryPageBaseVo);
+		MvcResult result = mockMvc.perform(get("/user/page").contentType(MediaType.APPLICATION_JSON_UTF8).content(content))
+				.andExpect(status().isOk())
+				.andReturn();
+
+		System.out.println(result.getResponse().getContentAsString());
+	}
+
+	@Test
+	public void testListController() throws Exception {
+		QueryPageBaseVo queryPageBaseVo =new QueryPageBaseVo();
+
+		Map<String,Object> map=new HashMap<>();
+		map.put(QueryPageBaseConstant.VO_FIELD_FILTER_METHOD,"findByUserNameEqualsOrUserCodeLikeAndPasswordLikeOrIdIn");
+		map.put("userName","aaa");
+		map.put("userCode","bbb");
+		map.put("password","ccc");
+		List<String> ids =new ArrayList<>();
+		ids.add("ddd");
+		ids.add("eee");
+		map.put("id",ids);
+		queryPageBaseVo.setParameters(map);
+		queryPageBaseVo.setIds(ids);
+		String content=JSONObject.toJSONString(queryPageBaseVo);
+		MvcResult result = mockMvc.perform(get("/user/list").contentType(MediaType.APPLICATION_JSON_UTF8).content(content))
+				.andExpect(status().isOk())
+				.andReturn();
+
+		System.out.println(result.getResponse().getContentAsString());
 	}
 
 }

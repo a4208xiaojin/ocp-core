@@ -47,7 +47,7 @@ import java.util.List;
 public interface IOcpCrudBaseController<T extends IOcpCrudBaseDo,I extends IOcpCrudBaseService> extends IOcpBaseController<T,I> {
     Logger logger = LoggerFactory.getLogger(IOcpCrudBaseController.class);
     default I getCrudBaseService(){
-        return (I) OcpSpringUtil.getBean(OcpGenericsUtils.getSuperClassGenericsType(getClass(), IOcpCrudBaseService.class));
+        return (I) OcpSpringUtil.getBean(OcpGenericsUtils.getControllerSuperClassGenericsType(getClass(), IOcpCrudBaseService.class));
     }
     @RequestMapping(value = "add",method = RequestMethod.POST)
     @ResponseBody

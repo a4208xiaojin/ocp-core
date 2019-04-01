@@ -51,11 +51,11 @@ import java.util.Optional;
 /**
  * @author jhb
  */
-@org.springframework.transaction.annotation.Transactional(readOnly = true)
+@org.springframework.transaction.annotation.Transactional(readOnly = true,rollbackFor = Exception.class)
 @OcpCurrentTenant
 public interface IOcpCrudBaseService<T extends IOcpCrudBaseDo,I extends IOcpCrudBaseDao> extends IOcpBaseService<T,I> {
     default I getCrudBaseDao(){
-        return (I) OcpSpringUtil.getBean(OcpGenericsUtils.getSuperClassGenericsType(getClass(), IOcpCrudBaseDao.class));
+        return (I) OcpSpringUtil.getBean(OcpGenericsUtils.getDaoSuperClassGenericsType(getClass(), IOcpCrudBaseDao.class));
     }
     default List<IOcpBaseCrudCommonPlugin> listBaseCrudCommonPlugin(){
         return OcpSpringUtil.getBeansOfTypeList(IOcpBaseCrudCommonPlugin.class);
@@ -226,7 +226,6 @@ public interface IOcpCrudBaseService<T extends IOcpCrudBaseDo,I extends IOcpCrud
 
     default Page<T> page(final QueryPageBaseVo queryPageBaseVo) {
         List<IOcpBaseCrudCommonPlugin> basePlugins=listBaseCrudCommonPlugin();
-        Pageable pageable = OcpBaseDaoUtils.generatedPage(queryPageBaseVo.getPageIndex(),queryPageBaseVo.getPageSize(),queryPageBaseVo.getSortMap());
         Page<T> page= getCrudBaseDao().page(queryPageBaseVo);
         if(basePlugins!=null&&basePlugins.size()>0){
             for(IOcpBaseCrudCommonPlugin basePlugin:basePlugins){
