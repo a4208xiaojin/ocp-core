@@ -44,15 +44,6 @@ public class OcpRepositoryImpl<T extends IOcpBaseDo, ID extends Serializable>
         this(JpaPersistableEntityInformation.getEntityInformation(domainClass, em), em);
     }
 
-//    @Override
-//    public List<T> getA() {
-//        CriteriaBuilder builder = em.getCriteriaBuilder();
-//        CriteriaQuery<T> cQuery = builder.createQuery(getDomainClass());
-//        Root<T> root = cQuery.from(getDomainClass());
-//        cQuery.select(root);
-//        TypedQuery<T> query = em.createQuery(cQuery);
-//        return query.getResultList();
-//    }
     @Override
     public Page<T> page(final QueryPageBaseVo queryPageBaseVo){
         Pageable pageable = OcpBaseDaoUtils.generatedPage(queryPageBaseVo.getPageIndex(),queryPageBaseVo.getPageSize(),queryPageBaseVo.getSortMap());

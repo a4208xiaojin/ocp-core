@@ -1,5 +1,4 @@
-package com.nbd.ocp.core.repository.base;
-
+package com.nbd.ocp.core.repository.base.plugin;
 /*
                        _ooOoo_
                       o8888888o
@@ -24,19 +23,14 @@ package com.nbd.ocp.core.repository.base;
 */
 
 
-import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpCurrentTenant;
-import com.nbd.ocp.core.repository.utils.OcpGenericsUtils;
-import com.nbd.ocp.core.repository.utils.OcpSpringUtil;
-import org.springframework.transaction.annotation.Transactional;
+import com.nbd.ocp.core.repository.base.IOcpBaseDao;
+import com.nbd.ocp.core.repository.base.IOcpBaseDo;
 
 
 /**
+ * 使用baseService时使用插件扩展时，通用的顶层接口定义
  * @author jhb
  */
-@Transactional(readOnly = true)
-@OcpCurrentTenant
-public interface IOcpBaseService<T extends IOcpBaseDo,I extends IOcpBaseDao> {
-    default I getBaseDao(){
-        return (I) OcpSpringUtil.getBean(OcpGenericsUtils.getSuperClassGenericsType(getClass(), IOcpBaseDao.class));
-    }
+public interface IOcpBaseCommonPlugin<T extends IOcpBaseDo,I extends IOcpBaseDao> extends IOcpBasePlugin<T,I> {
+    boolean  support(Class<?> c);
 }

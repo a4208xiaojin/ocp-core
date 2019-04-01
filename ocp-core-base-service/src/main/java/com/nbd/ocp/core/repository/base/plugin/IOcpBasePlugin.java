@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.repository.base;
+package com.nbd.ocp.core.repository.base.plugin;
 
 /*
                        _ooOoo_
@@ -24,19 +24,16 @@ package com.nbd.ocp.core.repository.base;
 */
 
 
-import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpCurrentTenant;
-import com.nbd.ocp.core.repository.utils.OcpGenericsUtils;
-import com.nbd.ocp.core.repository.utils.OcpSpringUtil;
-import org.springframework.transaction.annotation.Transactional;
+
+
+import com.nbd.ocp.core.repository.base.IOcpBaseDao;
+import com.nbd.ocp.core.repository.base.IOcpBaseDo;
 
 
 /**
  * @author jhb
  */
-@Transactional(readOnly = true)
-@OcpCurrentTenant
-public interface IOcpBaseService<T extends IOcpBaseDo,I extends IOcpBaseDao> {
-    default I getBaseDao(){
-        return (I) OcpSpringUtil.getBean(OcpGenericsUtils.getSuperClassGenericsType(getClass(), IOcpBaseDao.class));
-    }
+public interface IOcpBasePlugin<T extends IOcpBaseDo,I extends IOcpBaseDao>  {
+
+
 }

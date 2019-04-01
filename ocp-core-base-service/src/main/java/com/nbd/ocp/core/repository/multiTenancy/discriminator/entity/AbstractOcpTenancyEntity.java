@@ -1,6 +1,5 @@
 package com.nbd.ocp.core.repository.multiTenancy.discriminator.entity;
 
-import com.nbd.ocp.core.repository.base.IOcpBaseDo;
 import com.nbd.ocp.core.repository.multiTenancy.context.OcpTenantContextHolder;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
@@ -19,7 +18,7 @@ import javax.persistence.PreUpdate;
 @MappedSuperclass
 @FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenantId", type = "string")})
 @Filter(name = "tenantFilter", condition = "tenant_id = :tenantId")
-public abstract class AbstractOcpTenancyEntity implements IOcpBaseDo {
+public abstract class AbstractOcpTenancyEntity  {
 
   /**
    * Name of the tenant to which the user belongs

@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.repository.base;
+package com.nbd.ocp.core.repository.crud;
 
 /*
                        _ooOoo_
@@ -23,20 +23,15 @@ package com.nbd.ocp.core.repository.base;
              佛祖保佑       永无BUG
 */
 
+import com.nbd.ocp.core.repository.base.IOcpBaseDao;
+import org.springframework.data.repository.NoRepositoryBean;
 
-import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpCurrentTenant;
-import com.nbd.ocp.core.repository.utils.OcpGenericsUtils;
-import com.nbd.ocp.core.repository.utils.OcpSpringUtil;
-import org.springframework.transaction.annotation.Transactional;
-
+import java.io.Serializable;
 
 /**
  * @author jhb
  */
-@Transactional(readOnly = true)
-@OcpCurrentTenant
-public interface IOcpBaseService<T extends IOcpBaseDo,I extends IOcpBaseDao> {
-    default I getBaseDao(){
-        return (I) OcpSpringUtil.getBean(OcpGenericsUtils.getSuperClassGenericsType(getClass(), IOcpBaseDao.class));
-    }
+@NoRepositoryBean
+public  interface IOcpCrudBaseDao<T extends IOcpCrudBaseDo,ID extends Serializable> extends IOcpBaseDao<T, ID> {
+
 }

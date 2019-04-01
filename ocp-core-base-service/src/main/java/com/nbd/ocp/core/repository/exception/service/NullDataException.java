@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.jpa.service;
+package com.nbd.ocp.core.repository.exception.service;
 /*
                        _ooOoo_
                       o8888888o
@@ -23,19 +23,23 @@ package com.nbd.ocp.core.jpa.service;
 */
 
 
-import com.nbd.ocp.core.jpa.dao.IOcpUserDao;
-import com.nbd.ocp.core.jpa.entity.OcpUserDo;
-import com.nbd.ocp.core.repository.crud.IOcpCrudBaseService;
+import com.nbd.ocp.core.repository.exception.service.code.ServiceExceptionCodeConstant;
 
-import java.util.List;
+public class NullDataException extends ServiceException {
+    public NullDataException(Throwable t,String responseMsg) {
+        super(t,responseMsg);
+    }
 
-/**
- * @author jin
- */
-public interface IOcpUserService extends IOcpCrudBaseService<OcpUserDo, IOcpUserDao> {
-    List<OcpUserDo> findAll();
+    public NullDataException(String message) {
+        super(message);
+    }
 
-    OcpUserDo save(OcpUserDo userDO);
+    public NullDataException(String message, String responseMsg) {
+        super(message, responseMsg);
+    }
 
-    List<OcpUserDo> listUsers();
+    @Override
+    public String errorCode() {
+        return ServiceExceptionCodeConstant.NULL;
+    }
 }

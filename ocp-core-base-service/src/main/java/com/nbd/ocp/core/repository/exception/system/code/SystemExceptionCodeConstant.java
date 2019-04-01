@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.jpa.service;
+package com.nbd.base.exception.system.code;
 /*
                        _ooOoo_
                       o8888888o
@@ -22,20 +22,10 @@ package com.nbd.ocp.core.jpa.service;
              佛祖保佑       永无BUG
 */
 
+public class SystemExceptionCodeConstant {
+    public static final String CLASS_NO_FOUND="100";
+    public static final String NO_SUCH_FIELD="101";
+    public static final String ILLEGAL_ACCESS="102";
 
-import com.nbd.ocp.core.jpa.dao.IOcpUserDao;
-import com.nbd.ocp.core.jpa.entity.OcpUserDo;
-import com.nbd.ocp.core.repository.crud.IOcpCrudBaseService;
 
-import java.util.List;
-
-/**
- * @author jin
- */
-public interface IOcpUserService extends IOcpCrudBaseService<OcpUserDo, IOcpUserDao> {
-    List<OcpUserDo> findAll();
-
-    OcpUserDo save(OcpUserDo userDO);
-
-    List<OcpUserDo> listUsers();
 }

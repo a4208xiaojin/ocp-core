@@ -23,7 +23,8 @@ package com.nbd.ocp.core.jpa.dao;
 */
 
 
-import com.nbd.ocp.core.repository.base.IOcpBaseDao;
+import com.nbd.ocp.core.jpa.entity.OcpUserDo;
+import com.nbd.ocp.core.repository.crud.IOcpCrudBaseDao;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -31,7 +32,7 @@ import java.util.List;
 /**
  * @author jin
  */
-public interface IOcpUserDao extends IOcpBaseDao<OcpUserDo, String> {
+public interface IOcpUserDao extends IOcpCrudBaseDao<OcpUserDo, String> {
     @Query(value = "select useDo from OcpUserDo useDo")
     List<OcpUserDo> listUsers();
 }

@@ -17,14 +17,17 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author lanyuanxiaoyao
  * @version 1.0
  */
-public class OcpMultiTenantSchemaConnectionProviderImpl extends AbstractDataSourceBasedMultiTenantConnectionProviderImpl {
-    private static final Logger logger= LoggerFactory.getLogger(OcpMultiTenantSchemaConnectionProviderImpl.class);
+public class OcpMultiTenantConnectionProviderImpl extends AbstractDataSourceBasedMultiTenantConnectionProviderImpl {
+    private static final Logger logger= LoggerFactory.getLogger(OcpMultiTenantConnectionProviderImpl.class);
     private static ConcurrentHashMap<String, DataSource> dataSourceMap = new ConcurrentHashMap<>();
     private static DataConfig dataConfigModel;
-    public OcpMultiTenantSchemaConnectionProviderImpl(){
+    public OcpMultiTenantConnectionProviderImpl(){
         initDefaultConnectionProviderForTenant();
     }
-    // 在没有提供tenantId的情况下返回默认数据源
+    /**
+     *在没有提供tenantId的情况下返回默认数据源
+      */
+
     @Override
     protected DataSource selectAnyDataSource() {
         return getTenantDataSource(OcpTenantContextHolder.getContext().getTenantId());
@@ -45,13 +48,18 @@ public class OcpMultiTenantSchemaConnectionProviderImpl extends AbstractDataSour
         dataSourceMap.put("nbd1",dataSourceBuilder1.build());
         dataSourceMap.put("nbd",dataSourceBuilder.build());
     }
-    // 提供了tenantId的话就根据ID来返回数据源
+    /**
+     提供了tenantId的话就根据ID来返回数据源
+      */
     @Override
     protected DataSource selectDataSource(String tenantIdentifier) {
         return getTenantDataSource(tenantIdentifier);
     }
 
-    // 根据传进来的tenantId决定返回的数据源
+    /**
+     *根据传进来的tenantId决定返回的数据源
+      */
+
     public static DataSource getTenantDataSource(String tenantId) {
         if(dataSourceMap.containsKey(tenantId)){
             return dataSourceMap.get(tenantId);

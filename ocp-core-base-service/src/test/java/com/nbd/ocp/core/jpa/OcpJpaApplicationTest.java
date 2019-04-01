@@ -1,7 +1,7 @@
 package com.nbd.ocp.core.jpa;
 
 import com.alibaba.fastjson.JSON;
-import com.nbd.ocp.core.jpa.dao.OcpUserDo;
+import com.nbd.ocp.core.jpa.entity.OcpUserDo;
 import com.nbd.ocp.core.jpa.service.IOcpUserService;
 import com.nbd.ocp.core.repository.OcpRepositoryImpl;
 import com.nbd.ocp.core.repository.multiTenancy.context.OcpTenantContextHolder;
@@ -57,8 +57,6 @@ public class OcpJpaApplicationTest {
 		OcpTenantContextHolder.setTenant("nbd");
 		System.out.println(JSON.toJSONString(userService.findAll().size()));
 		System.out.println(JSON.toJSONString(userService.listUsers().size()));
-
-
 	}
 
 }

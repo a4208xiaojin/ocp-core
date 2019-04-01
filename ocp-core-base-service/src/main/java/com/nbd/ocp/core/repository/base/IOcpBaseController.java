@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.jpa.service;
+package com.nbd.ocp.core.repository.base;
 /*
                        _ooOoo_
                       o8888888o
@@ -23,19 +23,15 @@ package com.nbd.ocp.core.jpa.service;
 */
 
 
-import com.nbd.ocp.core.jpa.dao.IOcpUserDao;
-import com.nbd.ocp.core.jpa.entity.OcpUserDo;
-import com.nbd.ocp.core.repository.crud.IOcpCrudBaseService;
-
-import java.util.List;
+import com.nbd.ocp.core.repository.utils.OcpGenericsUtils;
+import com.nbd.ocp.core.repository.utils.OcpSpringUtil;
 
 /**
  * @author jin
  */
-public interface IOcpUserService extends IOcpCrudBaseService<OcpUserDo, IOcpUserDao> {
-    List<OcpUserDo> findAll();
 
-    OcpUserDo save(OcpUserDo userDO);
-
-    List<OcpUserDo> listUsers();
+public interface IOcpBaseController<T extends IOcpBaseDo,I extends IOcpBaseService> {
+    default I getBaseService(){
+        return (I) OcpSpringUtil.getBean(OcpGenericsUtils.getSuperClassGenericsType(getClass(), IOcpBaseService.class));
+    }
 }

@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.jpa.service;
+package com.nbd.ocp.core.repository.exception.service.code;
 /*
                        _ooOoo_
                       o8888888o
@@ -22,20 +22,12 @@ package com.nbd.ocp.core.jpa.service;
              佛祖保佑       永无BUG
 */
 
+public class ServiceExceptionCodeConstant {
+    /**数据值不唯一*/
+    public static final String DEFAULT_BUSI="000";
+    /**数据不存在*/
+    public static final String NULL="001";
+    /**数据已存在*/
+    public static final String EXISTS_DATA="002";
 
-import com.nbd.ocp.core.jpa.dao.IOcpUserDao;
-import com.nbd.ocp.core.jpa.entity.OcpUserDo;
-import com.nbd.ocp.core.repository.crud.IOcpCrudBaseService;
-
-import java.util.List;
-
-/**
- * @author jin
- */
-public interface IOcpUserService extends IOcpCrudBaseService<OcpUserDo, IOcpUserDao> {
-    List<OcpUserDo> findAll();
-
-    OcpUserDo save(OcpUserDo userDO);
-
-    List<OcpUserDo> listUsers();
 }

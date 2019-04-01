@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.jpa.service;
+package com.nbd.ocp.core.repository.exception.service;
 /*
                        _ooOoo_
                       o8888888o
@@ -23,19 +23,26 @@ package com.nbd.ocp.core.jpa.service;
 */
 
 
-import com.nbd.ocp.core.jpa.dao.IOcpUserDao;
-import com.nbd.ocp.core.jpa.entity.OcpUserDo;
-import com.nbd.ocp.core.repository.crud.IOcpCrudBaseService;
+import com.nbd.ocp.core.repository.exception.service.code.ServiceExceptionCodeConstant;
 
-import java.util.List;
+public class BusiException extends ServiceException {
+    public BusiException(Throwable t,String responseMsg) {
+        super(t,responseMsg);
+    }
+    public BusiException(String message) {
+        super(message);
+    }
 
-/**
- * @author jin
- */
-public interface IOcpUserService extends IOcpCrudBaseService<OcpUserDo, IOcpUserDao> {
-    List<OcpUserDo> findAll();
+    public BusiException(String message, String responseMsg) {
+        super(message, responseMsg);
+    }
 
-    OcpUserDo save(OcpUserDo userDO);
-
-    List<OcpUserDo> listUsers();
+    public BusiException(String code,String message, String responseMsg) {
+        super(message, responseMsg);
+        setCode(code);
+    }
+    @Override
+    public String errorCode() {
+        return ServiceExceptionCodeConstant.DEFAULT_BUSI;
+    }
 }

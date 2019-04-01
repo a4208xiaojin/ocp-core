@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.jpa.service;
+package com.nbd.ocp.core.repository.exception.system;
 /*
                        _ooOoo_
                       o8888888o
@@ -23,19 +23,29 @@ package com.nbd.ocp.core.jpa.service;
 */
 
 
-import com.nbd.ocp.core.jpa.dao.IOcpUserDao;
-import com.nbd.ocp.core.jpa.entity.OcpUserDo;
-import com.nbd.ocp.core.repository.crud.IOcpCrudBaseService;
-
-import java.util.List;
+import com.nbd.base.exception.system.code.SystemExceptionCodeConstant;
 
 /**
  * @author jin
  */
-public interface IOcpUserService extends IOcpCrudBaseService<OcpUserDo, IOcpUserDao> {
-    List<OcpUserDo> findAll();
+public class ClassNotFoundException extends SystemException {
+    public ClassNotFoundException(Throwable t,String responseMsg) {
+        super(t,responseMsg);
+    }
+    public ClassNotFoundException(String message) {
+        super(message);
+    }
 
-    OcpUserDo save(OcpUserDo userDO);
+    public ClassNotFoundException(String message, String responseMsg) {
+        super(message, responseMsg);
+    }
 
-    List<OcpUserDo> listUsers();
+    public ClassNotFoundException(String code,String message, String responseMsg) {
+        super(message, responseMsg);
+        setCode(code);
+    }
+    @Override
+    public String errorCode() {
+        return SystemExceptionCodeConstant.CLASS_NO_FOUND;
+    }
 }
