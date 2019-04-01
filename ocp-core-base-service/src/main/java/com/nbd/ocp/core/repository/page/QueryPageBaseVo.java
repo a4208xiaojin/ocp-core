@@ -35,7 +35,7 @@ import java.util.Map;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown=true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class QueryPageBaseVo  {
     private Map<String,Object> parameters;
     private List<String> ids;

@@ -8,6 +8,7 @@ import com.nbd.ocp.core.repository.OcpRepositoryImpl;
 import com.nbd.ocp.core.repository.multiTenancy.context.OcpTenantContextHolder;
 import com.nbd.ocp.core.repository.page.QueryPageBaseConstant;
 import com.nbd.ocp.core.repository.page.QueryPageBaseVo;
+import com.nbd.ocp.core.repository.utils.UriParamUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -59,8 +60,10 @@ public class OcpJpaApplicationTest {
 	public void save() {
 		OcpTenantContextHolder.setTenant("nbd1");
 		OcpUserDo userDO =new OcpUserDo();
+		userDO.setUserName("aaa");
+		userDO.setUserCode("bbb");
+		userDO.setPassword("ccc");
 		userDO.setEmail("d");
-		userDO.setPassword("ddd");
 		userDO.setSalt("ddddd");
 		userDO.setLocked(false);
 		OcpUserDo userVO =userService.save(userDO);
@@ -111,15 +114,13 @@ public class OcpJpaApplicationTest {
 		map.put("userCode","bbb");
 		map.put("password","ccc");
 		List<String> ids =new ArrayList<>();
-		ids.add("ddd");
+		ids.add("ff80808169d9b5220169d9b5317b0001");
 		ids.add("eee");
 		map.put("id",ids);
 		queryPageBaseVo.setParameters(map);
 		queryPageBaseVo.setIds(ids);
 
-
-		String content=JSONObject.toJSONString(queryPageBaseVo);
-		MvcResult result = mockMvc.perform(get("/user/page").contentType(MediaType.APPLICATION_JSON_UTF8).content(content))
+		MvcResult result = mockMvc.perform(get("/user/page?"+UriParamUtil.bean2UrlParamStr( queryPageBaseVo)))
 				.andExpect(status().isOk())
 				.andReturn();
 
@@ -141,8 +142,7 @@ public class OcpJpaApplicationTest {
 		map.put("id",ids);
 		queryPageBaseVo.setParameters(map);
 		queryPageBaseVo.setIds(ids);
-		String content=JSONObject.toJSONString(queryPageBaseVo);
-		MvcResult result = mockMvc.perform(get("/user/list").contentType(MediaType.APPLICATION_JSON_UTF8).content(content))
+		MvcResult result = mockMvc.perform(get("/user/list?"+UriParamUtil.bean2UrlParamStr( queryPageBaseVo)))
 				.andExpect(status().isOk())
 				.andReturn();
 
