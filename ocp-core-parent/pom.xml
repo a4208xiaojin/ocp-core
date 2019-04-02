@@ -9,15 +9,14 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.Encoding>UTF-8</project.build.Encoding>
-		<nbd.project.version>0.0.1-SNAPSHOT</nbd.project.version>
 		<maven-war-plugin.version>3.1.0</maven-war-plugin.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>com.nbd</groupId>
-				<artifactId>sc-ocmp-bom</artifactId>
-				<version>${nbd.project.version}</version>
+				<artifactId>ocp-core-bom</artifactId>
+				<version>${project.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -97,5 +96,6 @@
 	<modules>
 		<module>../ocp-core-bom</module>
 		<module>../ocp-core-base-service</module>
+		<module>../ocp-core-utils</module>
 	</modules>
 </project>

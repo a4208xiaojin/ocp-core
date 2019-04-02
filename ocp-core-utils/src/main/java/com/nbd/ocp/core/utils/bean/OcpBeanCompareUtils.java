@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.repository.utils;
+package com.nbd.ocp.core.utils.bean;
 /*
                        _ooOoo_
                       o8888888o
@@ -28,7 +28,7 @@ import java.lang.reflect.Field;
 /**
  * @author jhb
  */
-public class BeanCompareUtils {
+public class OcpBeanCompareUtils {
 
     /**
      * 复制对象属性，sourceBean 属性复制到 targetBean ，sourceBean存在值则以sourceBean为准，targetBean为默认值。

@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.repository.utils;
+package com.nbd.ocp.core.utils.reflect;
 /*
                        _ooOoo_
                       o8888888o
@@ -27,8 +27,8 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 
-public class ReflectUtil {
-    private static Logger logger = LoggerFactory.getLogger(ReflectUtil.class);
+public class OcpReflectUtil {
+    private static Logger logger = LoggerFactory.getLogger(OcpReflectUtil.class);
     /**
      * 判断类是否为jdk自带
      * @param clz

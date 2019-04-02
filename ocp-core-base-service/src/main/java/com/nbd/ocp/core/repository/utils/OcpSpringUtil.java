@@ -7,6 +7,7 @@ import org.springframework.beans.factory.NoUniqueBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.Map;
  */
 @Component
 @Lazy(false)
+@Order(1)
 public class OcpSpringUtil implements ApplicationContextAware {
     private static Logger             logger = LoggerFactory.getLogger(OcpSpringUtil.class);
     private static ApplicationContext applicationContext;

@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.repository.utils;
+package com.nbd.ocp.core.utils.uri;
 /*
                        _ooOoo_
                       o8888888o
@@ -24,6 +24,7 @@ package com.nbd.ocp.core.repository.utils;
 
 
 import com.alibaba.fastjson.JSON;
+import com.nbd.ocp.core.utils.reflect.OcpReflectUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,8 +39,8 @@ import java.util.Set;
  * @author jin
  */
 
-public class UriParamUtil {
-    private static Logger logger = LoggerFactory.getLogger(UriParamUtil.class);
+public class OcpUriParamUtil {
+    private static Logger logger = LoggerFactory.getLogger(OcpUriParamUtil.class);
     public static String bean2UrlParamStr(Object obj) {
         Map<String,String> map=bean2UrlParamsMap(obj,null);
         if (map == null||map.isEmpty()) {
@@ -58,7 +59,7 @@ public class UriParamUtil {
         System.out.println(JSON.toJSONString(obj));
         parentName=parentName==null?"":parentName;
         Map<String,String> map= new LinkedHashMap<>();
-        if(ReflectUtil.isPrimitive(obj)){
+        if(OcpReflectUtil.isPrimitive(obj)){
             map.put(parentName,String.valueOf(obj));
             return map;
         }else if(List.class.isAssignableFrom(obj.getClass())|| Set.class.isAssignableFrom(obj.getClass())){
@@ -98,7 +99,7 @@ public class UriParamUtil {
                 continue;
             }
             //判断类是否为jdk自带
-            if(ReflectUtil.isJdkClass(fieldClass)){
+            if(OcpReflectUtil.isJdkClass(fieldClass)){
                 if(fieldClass.isAssignableFrom(List.class)|| fieldClass.isAssignableFrom(Set.class)){
                     String keyPre= StringUtils.isEmpty(parentName)?name:(parentName+"."+name);
                     List listFieldValue=(List)fieldValue;

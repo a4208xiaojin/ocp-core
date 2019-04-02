@@ -8,7 +8,7 @@ import com.nbd.ocp.core.repository.OcpRepositoryImpl;
 import com.nbd.ocp.core.repository.multiTenancy.context.OcpTenantContextHolder;
 import com.nbd.ocp.core.repository.page.QueryPageBaseConstant;
 import com.nbd.ocp.core.repository.page.QueryPageBaseVo;
-import com.nbd.ocp.core.repository.utils.UriParamUtil;
+import com.nbd.ocp.core.utils.uri.OcpUriParamUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -120,7 +120,7 @@ public class OcpJpaApplicationTest {
 		queryPageBaseVo.setParameters(map);
 		queryPageBaseVo.setIds(ids);
 
-		MvcResult result = mockMvc.perform(get("/user/page?"+UriParamUtil.bean2UrlParamStr( queryPageBaseVo)))
+		MvcResult result = mockMvc.perform(get("/user/page?"+ OcpUriParamUtil.bean2UrlParamStr( queryPageBaseVo)))
 				.andExpect(status().isOk())
 				.andReturn();
 
@@ -142,7 +142,7 @@ public class OcpJpaApplicationTest {
 		map.put("id",ids);
 		queryPageBaseVo.setParameters(map);
 		queryPageBaseVo.setIds(ids);
-		MvcResult result = mockMvc.perform(get("/user/list?"+UriParamUtil.bean2UrlParamStr( queryPageBaseVo)))
+		MvcResult result = mockMvc.perform(get("/user/list?"+OcpUriParamUtil.bean2UrlParamStr( queryPageBaseVo)))
 				.andExpect(status().isOk())
 				.andReturn();
 

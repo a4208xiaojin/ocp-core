@@ -30,13 +30,11 @@ import com.nbd.ocp.core.repository.crud.plugin.IOcpBaseCrudCommonPlugin;
 import com.nbd.ocp.core.repository.exception.service.ExistsDataException;
 import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpCurrentTenant;
 import com.nbd.ocp.core.repository.page.QueryPageBaseVo;
-import com.nbd.ocp.core.repository.utils.BeanCompareUtils;
-import com.nbd.ocp.core.repository.utils.OcpBaseDaoUtils;
 import com.nbd.ocp.core.repository.utils.OcpGenericsUtils;
 import com.nbd.ocp.core.repository.utils.OcpSpringUtil;
+import com.nbd.ocp.core.utils.bean.OcpBeanCompareUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -130,7 +128,7 @@ public interface IOcpCrudBaseService<T extends IOcpCrudBaseDo,I extends IOcpCrud
             }
         }
         T userDoDB=getById(t.getId());
-        BeanCompareUtils.combineSydwCore(t,userDoDB);
+        OcpBeanCompareUtils.combineSydwCore(t,userDoDB);
         beforeUpdate(userDoDB);
         T r = (T) getCrudBaseDao().save(userDoDB);
 
