@@ -25,7 +25,7 @@ package com.nbd.ocp.core.repository.crud.plugin;
 import com.nbd.ocp.core.repository.base.plugin.IOcpBaseCommonPlugin;
 import com.nbd.ocp.core.repository.crud.IOcpCrudBaseDao;
 import com.nbd.ocp.core.repository.crud.IOcpCrudBaseDo;
-import com.nbd.ocp.core.repository.page.QueryPageBaseVo;
+import com.nbd.ocp.core.repository.request.QueryPageBaseVo;
 import org.springframework.data.domain.Page;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -60,7 +60,7 @@ public interface IOcpBaseCrudCommonPlugin<T extends IOcpCrudBaseDo,I extends IOc
     void afterDelete(I baseDao, T userDoDB);
 
 
-    Predicate beforeGetById(I baseDao, Root<T> root, CriteriaBuilder criteriaBuilder, Object id);
+    Predicate beforeGetById(I baseDao, Root<T> root, CriteriaBuilder criteriaBuilder, String id);
 
     void afterGetById(I baseDao, T r);
 

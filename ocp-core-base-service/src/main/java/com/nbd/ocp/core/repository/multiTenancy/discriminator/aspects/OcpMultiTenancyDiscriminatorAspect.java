@@ -42,12 +42,12 @@ public class OcpMultiTenancyDiscriminatorAspect {
 
   @Around("execution(public * *(..)) && hasMultiTenantAnnotation()")
   public Object aroundExecution(ProceedingJoinPoint pjp) throws Throwable {
-      final String methodName = pjp.getSignature().getName();
+//      final String methodName = pjp.getSignature().getName();
       final MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
       Method method = methodSignature.getMethod();
-      if (!method.isDefault()&&method.getDeclaringClass().isInterface()) {
-        method = pjp.getTarget().getClass().getDeclaredMethod(methodName, method.getParameterTypes());
-      }
+//      if (!method.isDefault()&&method.getDeclaringClass().isInterface()) {
+//        method = pjp.getTarget().getClass().getDeclaredMethod(methodName, method.getParameterTypes());
+//      }
       Annotation multiTenantAnnotation = getMultiTenantAnnotation(method);
       if (multiTenantAnnotation == null) {
         multiTenantAnnotation = getMultiTenantAnnotation(method.getDeclaringClass());

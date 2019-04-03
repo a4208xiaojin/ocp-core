@@ -1,6 +1,6 @@
 package com.nbd.ocp.core.repository;
 
-import com.nbd.ocp.core.repository.page.QueryPageBaseVo;
+import com.nbd.ocp.core.repository.request.QueryPageBaseVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

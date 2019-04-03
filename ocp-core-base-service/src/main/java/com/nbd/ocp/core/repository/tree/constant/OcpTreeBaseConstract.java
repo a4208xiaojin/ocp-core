@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.jpa.dao;
+package com.nbd.ocp.core.repository.tree.constant;
 /*
                        _ooOoo_
                       o8888888o
@@ -22,17 +22,7 @@ package com.nbd.ocp.core.jpa.dao;
              佛祖保佑       永无BUG
 */
 
-
-import com.nbd.ocp.core.jpa.entity.OcpUserDo;
-import com.nbd.ocp.core.repository.crud.IOcpCrudBaseDao;
-import org.springframework.data.jpa.repository.Query;
-
-import java.util.List;
-
-/**
- * @author jin
- */
-public interface IOcpUserDao extends IOcpCrudBaseDao<OcpUserDo, String> {
-    @Query(value = "select useDo from OcpUserDo useDo")
-    List<OcpUserDo> listUsers();
+public class OcpTreeBaseConstract {
+    public static  final  String TREE_ROOT_ID="root";
+    public static  final  String TREE_ROOT_NAME="根节点";
 }

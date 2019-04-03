@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.jpa.service;
+package com.nbd.ocp.core.jpa.crud.service;
 /*
                        _ooOoo_
                       o8888888o
@@ -23,8 +23,8 @@ package com.nbd.ocp.core.jpa.service;
 */
 
 
-import com.nbd.ocp.core.jpa.dao.IOcpUserDao;
-import com.nbd.ocp.core.jpa.entity.OcpUserDo;
+import com.nbd.ocp.core.jpa.crud.dao.IOcpUserDao;
+import com.nbd.ocp.core.jpa.crud.entity.OcpUserDo;
 import com.nbd.ocp.core.repository.crud.IOcpCrudBaseService;
 
 import java.util.List;

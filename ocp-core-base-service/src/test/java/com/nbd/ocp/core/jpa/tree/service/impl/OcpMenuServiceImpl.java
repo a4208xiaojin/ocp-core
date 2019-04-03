@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.repository.page;
+package com.nbd.ocp.core.jpa.tree.service.impl;
 /*
                        _ooOoo_
                       o8888888o
@@ -22,7 +22,18 @@ package com.nbd.ocp.core.repository.page;
              佛祖保佑       永无BUG
 */
 
-public class QueryPageBaseConstant {
-    public static String VO_FIELD_FILTER_METHOD="parameters.method_name_segment_1";
+
+import com.nbd.ocp.core.jpa.tree.dao.IOcpMenuDao;
+import com.nbd.ocp.core.jpa.tree.entity.OcpMenuDo;
+import com.nbd.ocp.core.jpa.tree.service.IOcpMenuService;
+import com.nbd.ocp.core.repository.tree.IOcpTreeBaseServiceImpl;
+import org.springframework.stereotype.Service;
+
+/**
+ * @author jin
+ */
+
+@Service
+public class OcpMenuServiceImpl implements IOcpMenuService, IOcpTreeBaseServiceImpl<OcpMenuDo, IOcpMenuDao> {
 
 }

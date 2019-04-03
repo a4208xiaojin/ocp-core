@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.jpa.service.impl;
+package com.nbd.ocp.core.jpa.crud.service.impl;
 /*
                        _ooOoo_
                       o8888888o
@@ -23,9 +23,10 @@ package com.nbd.ocp.core.jpa.service.impl;
 */
 
 
-import com.nbd.ocp.core.jpa.dao.IOcpUserDao;
-import com.nbd.ocp.core.jpa.entity.OcpUserDo;
-import com.nbd.ocp.core.jpa.service.IOcpUserService;
+import com.nbd.ocp.core.jpa.crud.dao.IOcpUserDao;
+import com.nbd.ocp.core.jpa.crud.entity.OcpUserDo;
+import com.nbd.ocp.core.jpa.crud.service.IOcpUserService;
+import com.nbd.ocp.core.repository.crud.IOcpCrudBaseServiceImpl;
 import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpCurrentTenant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,11 +39,12 @@ import java.util.List;
  * @author jin
  */
 @Service
-@Transactional(readOnly = true)
+@org.springframework.transaction.annotation.Transactional(readOnly = true,rollbackFor = Exception.class)
 @OcpCurrentTenant
-public class OcpUserServiceImpl implements IOcpUserService {
+public class OcpUserServiceImpl implements IOcpUserService, IOcpCrudBaseServiceImpl<OcpUserDo, IOcpUserDao> {
     @Autowired
     IOcpUserDao userDao;
+
     @Override
     public List<OcpUserDo> findAll() {
         return userDao.findAll();

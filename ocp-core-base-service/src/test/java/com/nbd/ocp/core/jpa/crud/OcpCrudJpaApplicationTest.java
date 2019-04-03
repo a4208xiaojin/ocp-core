@@ -1,13 +1,13 @@
-package com.nbd.ocp.core.jpa;
+package com.nbd.ocp.core.jpa.crud;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.nbd.ocp.core.jpa.entity.OcpUserDo;
-import com.nbd.ocp.core.jpa.service.IOcpUserService;
+import com.nbd.ocp.core.jpa.crud.entity.OcpUserDo;
+import com.nbd.ocp.core.jpa.crud.service.IOcpUserService;
 import com.nbd.ocp.core.repository.OcpRepositoryImpl;
 import com.nbd.ocp.core.repository.multiTenancy.context.OcpTenantContextHolder;
-import com.nbd.ocp.core.repository.page.QueryPageBaseConstant;
-import com.nbd.ocp.core.repository.page.QueryPageBaseVo;
+import com.nbd.ocp.core.repository.request.QueryPageBaseConstant;
+import com.nbd.ocp.core.repository.request.QueryPageBaseVo;
 import com.nbd.ocp.core.utils.uri.OcpUriParamUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,7 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Rollback(false)
 @ComponentScan(basePackages="com.nbd.ocp.core.jpa")
 @EnableJpaRepositories( basePackages = "com.nbd.ocp.core.jpa",repositoryBaseClass= OcpRepositoryImpl.class)
-public class OcpJpaApplicationTest {
+public class OcpCrudJpaApplicationTest {
 
 	@Autowired
 	IOcpUserService userService;
@@ -55,8 +55,6 @@ public class OcpJpaApplicationTest {
 	}
 
 
-	@Test
-	@Order(3)
 	public void save() {
 		OcpTenantContextHolder.setTenant("nbd1");
 		OcpUserDo userDO =new OcpUserDo();
@@ -79,8 +77,6 @@ public class OcpJpaApplicationTest {
 
 	}
 
-	@Test
-	@Order(0)
 	public void list() {
 		OcpTenantContextHolder.setTenant("nbd1");
 		System.out.println(JSON.toJSONString(userService.findAll().size()));
@@ -88,7 +84,6 @@ public class OcpJpaApplicationTest {
 		System.out.println(JSON.toJSONString(userService.findAll().size()));
 		System.out.println(JSON.toJSONString(userService.listUsers().size()));
 	}
-	@Test
 	public void testAddController() throws Exception {
 		OcpUserDo UserDO =new OcpUserDo();
 		UserDO.setEmail("d");

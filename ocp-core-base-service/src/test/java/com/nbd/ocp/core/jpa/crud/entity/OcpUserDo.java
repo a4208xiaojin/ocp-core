@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.jpa.entity;
+package com.nbd.ocp.core.jpa.crud.entity;
 
 
 
@@ -47,12 +47,12 @@ import java.time.Instant;
  * @author jhb
  */
 @Data
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper=false)
 @DynamicInsert
 @DynamicUpdate
 @Entity
 @Table(name="nbd_user_tenancy")
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper=false)
 public class OcpUserDo  extends AbstractOcpTenancyEntity  implements IOcpCrudBaseDo {
     @Id
     @GenericGenerator(name="system-uuid", strategy = "uuid.hex")

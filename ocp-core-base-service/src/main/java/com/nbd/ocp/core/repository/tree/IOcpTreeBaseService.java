@@ -1,5 +1,4 @@
-package com.nbd.ocp.core.repository.base;
-
+package com.nbd.ocp.core.repository.tree;
 /*
                        _ooOoo_
                       o8888888o
@@ -23,12 +22,26 @@ package com.nbd.ocp.core.repository.base;
              佛祖保佑       永无BUG
 */
 
-
+import com.nbd.ocp.core.repository.base.IOcpBaseService;
 import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpCurrentTenant;
+import com.nbd.ocp.core.repository.tree.request.OcpTreeQueryBaseVo;
+import java.util.List;
+
 
 /**
  * @author jhb
  */
-public interface IOcpBaseService<T extends IOcpBaseDo,I extends IOcpBaseDao> {
+@org.springframework.transaction.annotation.Transactional(readOnly = true,rollbackFor = Exception.class)
+@OcpCurrentTenant
+public  interface IOcpTreeBaseService<T extends IOcpTreeBaseDo,I extends IOcpTreeBaseDao> extends IOcpBaseService<T,I> {
+    String getMaxInnerCode();
 
+    void moveAllChildren(String cascadelInnerCode, String cascadelInnerCodeParent);
+
+    boolean hasChildren(String cascadelInnerCodeParent);
+
+    List<T> treeAllChildrenBysCascade(String cascadelInnerCodeParent);
+
+
+    List<T> listTree(OcpTreeQueryBaseVo treeQueryBaseVo);
 }

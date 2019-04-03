@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.jpa.controller;
+package com.nbd.ocp.core.jpa.crud.dao;
 /*
                        _ooOoo_
                       o8888888o
@@ -23,16 +23,17 @@ package com.nbd.ocp.core.jpa.controller;
 */
 
 
-import com.nbd.ocp.core.jpa.entity.OcpUserDo;
-import com.nbd.ocp.core.jpa.service.IOcpUserService;
-import com.nbd.ocp.core.repository.crud.IOcpCrudBaseController;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.nbd.ocp.core.jpa.crud.entity.OcpUserDo;
+import com.nbd.ocp.core.repository.crud.IOcpCrudBaseDao;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
+
 
 /**
  * @author jin
  */
-@Controller
-@RequestMapping("user")
-public class UserController implements IOcpCrudBaseController<OcpUserDo,IOcpUserService> {
+public interface IOcpUserDao extends IOcpCrudBaseDao<OcpUserDo, String> {
+    @Query(value = "select useDo from OcpUserDo useDo")
+    List<OcpUserDo> listUsers();
 }

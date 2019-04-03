@@ -24,11 +24,15 @@ package com.nbd.ocp.core.repository.base;
 */
 
 
-import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpCurrentTenant;
+import com.nbd.ocp.core.repository.utils.OcpGenericsUtils;
+import com.nbd.ocp.core.repository.utils.OcpSpringUtil;
+
 
 /**
  * @author jhb
  */
-public interface IOcpBaseService<T extends IOcpBaseDo,I extends IOcpBaseDao> {
-
+public interface IOcpBaseServiceImpl<T extends IOcpBaseDo,I extends IOcpBaseDao> extends IOcpBaseService<T,I> {
+    default I getBaseDao(){
+        return (I) OcpSpringUtil.getBean(OcpGenericsUtils.getDaoSuperClassGenericsType(getClass(), IOcpBaseDao.class));
+    }
 }

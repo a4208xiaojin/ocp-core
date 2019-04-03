@@ -25,7 +25,7 @@ package com.nbd.ocp.core.repository.crud;
 
 import com.nbd.ocp.core.repository.base.IOcpBaseController;
 import com.nbd.ocp.core.repository.exception.service.ServiceException;
-import com.nbd.ocp.core.repository.page.QueryPageBaseVo;
+import com.nbd.ocp.core.repository.request.QueryPageBaseVo;
 import com.nbd.ocp.core.repository.response.OcpJsonResponse;
 import com.nbd.ocp.core.repository.utils.OcpGenericsUtils;
 import com.nbd.ocp.core.repository.utils.OcpSpringUtil;

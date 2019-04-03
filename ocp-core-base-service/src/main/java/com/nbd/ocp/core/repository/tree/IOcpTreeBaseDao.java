@@ -1,4 +1,5 @@
-package com.nbd.ocp.core.repository.page;
+package com.nbd.ocp.core.repository.tree;
+
 /*
                        _ooOoo_
                       o8888888o
@@ -22,26 +23,17 @@ package com.nbd.ocp.core.repository.page;
              佛祖保佑       永无BUG
 */
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Data;
+import com.nbd.ocp.core.repository.crud.IOcpCrudBaseDao;
+import org.springframework.data.repository.NoRepositoryBean;
 
+import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
-
 
 /**
  * @author jhb
  */
-@Data
-@JsonIgnoreProperties(ignoreUnknown=true)
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class QueryPageBaseVo  {
-    private Map<String,Object> parameters;
-    private List<String> ids;
-    private     List<Integer>      statusList;
-    private     Map<String,String> sortMap;
-    private     Map<String,String> extension;
-    private Integer                      pageIndex = 0;
-    private Integer                      pageSize = 10;
+@NoRepositoryBean
+public  interface IOcpTreeBaseDao<T extends IOcpTreeBaseDo,ID extends Serializable>  extends IOcpCrudBaseDao<T, ID> {
+
+    List<IOcpTreeBaseDo> findByIdIn(List<String> pIds);
 }

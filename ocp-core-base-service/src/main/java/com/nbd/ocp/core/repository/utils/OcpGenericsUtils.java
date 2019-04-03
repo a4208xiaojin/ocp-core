@@ -22,8 +22,6 @@ package com.nbd.ocp.core.repository.utils;
              佛祖保佑       永无BUG
 */
 
-import com.nbd.ocp.core.repository.crud.IOcpCrudBaseDao;
-import com.nbd.ocp.core.repository.crud.IOcpCrudBaseService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
