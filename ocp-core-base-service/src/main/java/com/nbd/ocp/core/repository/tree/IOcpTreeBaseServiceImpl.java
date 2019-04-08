@@ -149,14 +149,14 @@ public  interface IOcpTreeBaseServiceImpl<T extends IOcpTreeBaseDo,I extends IOc
     @javax.transaction.Transactional(rollbackOn = Exception.class)
     default  void deleteById(String id) {
         T doDB=getById(id);
-        getTreeBaseDao().delete(doDB);
+        if(doDB==null){
+            return ;
+        }else if(hasChildren(doDB.getCascadeInnerCode())){
+            throw new TreeException(TreeException.TREE_HAS_CHILDREN_CANNOT_DELETE,TreeException.TREE_HAS_CHILDREN_CANNOT_DELETE_MSG);
+        }else{
+            getTreeBaseDao().delete(doDB);
+        }
     }
-
-    default void beforeDeleteById(T doDB){}
-
-    default void afterDeleteById(T doDB){}
-
-
     @Override
     default T getById(String id) {
         Optional<T> optionalT =getTreeBaseDao().findOne((Specification<T>) (root, criteriaQuery, criteriaBuilder) -> {
@@ -172,9 +172,6 @@ public  interface IOcpTreeBaseServiceImpl<T extends IOcpTreeBaseDo,I extends IOc
 
     }
 
-
-
-
     @Override
     default Page<T> page(final QueryPageBaseVo queryPageBaseVo) {
         return getTreeBaseDao().page(queryPageBaseVo);
@@ -183,7 +180,6 @@ public  interface IOcpTreeBaseServiceImpl<T extends IOcpTreeBaseDo,I extends IOc
     default List<T> list(QueryPageBaseVo queryBaseVo) {
         return getTreeBaseDao().list(queryBaseVo);
     }
-
 
     /**
      * 获取所有已生成的innercode中的最大值
@@ -262,13 +258,9 @@ public  interface IOcpTreeBaseServiceImpl<T extends IOcpTreeBaseDo,I extends IOc
     default  List<T> listTree(OcpTreeQueryBaseVo treeQueryBaseVo){
         String pid=StringUtils.isEmpty(treeQueryBaseVo.getPid())? OcpTreeBaseConstract.TREE_ROOT_ID:treeQueryBaseVo.getPid();
         List<T> list=listAllChildrenById(pid);
-        afterListTree(treeQueryBaseVo,list);
         return OcpTreeUtils.list2Tree(list);
     }
 
-    default void afterListTree(OcpTreeQueryBaseVo treeQueryBaseVo, List<T> list){
-
-    }
 
     default List<T> listAllChildrenById(String id){
         Sort sort= Sort.by("cascadeInnerCode");

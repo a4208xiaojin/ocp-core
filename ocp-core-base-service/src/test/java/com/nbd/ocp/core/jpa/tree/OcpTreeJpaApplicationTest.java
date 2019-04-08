@@ -86,4 +86,9 @@ public class OcpTreeJpaApplicationTest {
 		OcpTenantContextHolder.setTenant("nbd1");
 		System.out.println(JSON.toJSONString(menuService.getById("ff80808169eb68090169eb681a4f0000")));
 	}
+	@Test
+	public void testDeleteId() {
+		OcpTenantContextHolder.setTenant("nbd1");
+		menuService.deleteById("ff80808169eb66430169eb6651ab0000");
+	}
 }
