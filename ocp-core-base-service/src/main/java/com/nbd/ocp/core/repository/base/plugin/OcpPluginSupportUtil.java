@@ -31,19 +31,22 @@ import java.lang.reflect.Type;
  */
 public class OcpPluginSupportUtil {
     public static boolean support(Class<?> c,Class<?> t) {
-        Type[] types = c.getGenericInterfaces();
-        for(Type type:types){
-            if(type instanceof  ParameterizedType){
-                ParameterizedType parameterized = (ParameterizedType) type;
-                Type[] typeAry=parameterized.getActualTypeArguments();
-                if(typeAry!=null& typeAry.length>0){
-                    Class clazz= (Class) parameterized.getActualTypeArguments()[0];
-                    if(t.isAssignableFrom(clazz)){
-                        return true;
+        Class[] superClass = c.getInterfaces();
+        for(Class clazz:superClass){
+            Type[] types = clazz.getGenericInterfaces();
+            for(Type type:types){
+                if(type instanceof  ParameterizedType){
+                    ParameterizedType parameterized = (ParameterizedType) type;
+                    Type[] typeAry=parameterized.getActualTypeArguments();
+                    if(typeAry!=null& typeAry.length>0){
+                        Class targetClazz= (Class) parameterized.getActualTypeArguments()[0];
+                        if(t.isAssignableFrom(targetClazz)){
+                            return true;
+                        }
                     }
                 }
-            }
 
+            }
         }
         return false;
     }

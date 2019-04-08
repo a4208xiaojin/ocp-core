@@ -23,8 +23,7 @@ package com.nbd.ocp.core.repository.tree;
 */
 
 
-import com.nbd.ocp.core.repository.crud.IOcpCrudBaseDo;
-
+import com.nbd.ocp.core.repository.base.IOcpBaseDo;
 import javax.persistence.MappedSuperclass;
 import java.util.List;
 
@@ -32,7 +31,7 @@ import java.util.List;
  * @author jhb
  */
 @MappedSuperclass
-public  interface IOcpTreeBaseDo extends IOcpCrudBaseDo {
+public  interface IOcpTreeBaseDo extends IOcpBaseDo {
 
 
     /**

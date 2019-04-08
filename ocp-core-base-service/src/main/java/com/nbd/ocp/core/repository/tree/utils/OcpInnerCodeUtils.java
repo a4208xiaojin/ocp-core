@@ -1,12 +1,13 @@
 package com.nbd.ocp.core.repository.tree.utils;
 
+import com.nbd.ocp.core.repository.multiTenancy.context.OcpTenantContextHolder;
 import com.nbd.ocp.core.repository.tree.IOcpTreeBaseService;
 import com.nbd.ocp.core.repository.utils.OcpSpringUtil;
 import com.nbd.ocp.core.utils.number.OcpNumberBaseConversionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.util.StringUtils;
 
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -45,7 +46,7 @@ public class OcpInnerCodeUtils {
     private static String[] pre=new String[]{"00000","0000","000","00","0",""};
 
 
-    private static final  String  INCR_KEY_POSTFIX="_inner_code_queue";
+    private static final  String  INCR_KEY_POSTFIX="inner_code_queue";
 
     /**
      * 通过redis 自增序列获取long值，转为4位36位
@@ -56,13 +57,18 @@ public class OcpInnerCodeUtils {
             //TODO innerCode Exception
             return null;
         }
-        StringRedisTemplate jedisTemplate = OcpSpringUtil.getBean(StringRedisTemplate.class);
-        innerCodeKey+=INCR_KEY_POSTFIX;
+
+        StringRedisTemplate redisTemplate = OcpSpringUtil.getBean(StringRedisTemplate.class);
+        String tenantId=OcpTenantContextHolder.getContext().getTenantId();
+        if(StringUtils.isNotEmpty(tenantId)){
+            innerCodeKey+=("."+tenantId);
+        }
+        innerCodeKey+=("."+INCR_KEY_POSTFIX);
         String innerCode;
         Long innerValue = null;
         try{
             lock.lock();
-            innerValue=jedisTemplate.opsForValue().increment(innerCodeKey,1);
+            innerValue=redisTemplate.opsForValue().increment(innerCodeKey,1);
             logger.debug("innerValue:{}",innerValue);
             logger.debug("innerValue是否为0：{}",innerValue.compareTo(0L));
             if(innerValue.compareTo(1L)==0){
@@ -76,8 +82,8 @@ public class OcpInnerCodeUtils {
                 }
                 logger.debug("maxValue:{}",maxValue);
                 if(maxValue.compareTo(innerValue)>0){
-                    jedisTemplate.opsForValue().set(innerCodeKey,maxValue+"");
-                    innerValue=jedisTemplate.opsForValue().increment(innerCodeKey,1);
+                    redisTemplate.opsForValue().set(innerCodeKey,maxValue+"");
+                    innerValue=redisTemplate.opsForValue().increment(innerCodeKey,1);
                 }
             }
         }catch (Exception e){

@@ -36,15 +36,7 @@ import java.time.Instant;
 @MappedSuperclass
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public interface IOcpCrudBaseDo extends IOcpBaseDo {
-    /**
-     * id
-     *     @Id
-     *     @GenericGenerator(name="system-uuid", strategy = "uuid.hex")
-     *     @GeneratedValue(generator="system-uuid")
-     *     @Column(name="id",length = 32)
-     * @return id
-     */
-    String getId();
+
     /**
      * 版本号
      * @Column(name="version")

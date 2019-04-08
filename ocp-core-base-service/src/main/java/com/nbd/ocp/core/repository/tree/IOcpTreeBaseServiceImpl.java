@@ -23,12 +23,17 @@ package com.nbd.ocp.core.repository.tree;
 */
 
 import com.nbd.ocp.core.repository.base.IOcpBaseServiceImpl;
-import com.nbd.ocp.core.repository.crud.IOcpCrudBaseServiceImpl;
+import com.nbd.ocp.core.repository.constant.OcpCrudBaseDoConstant;
+import com.nbd.ocp.core.repository.exception.service.ExistsDataException;
+import com.nbd.ocp.core.repository.request.QueryPageBaseVo;
 import com.nbd.ocp.core.repository.tree.constant.OcpTreeBaseConstract;
+import com.nbd.ocp.core.repository.tree.exception.TreeException;
 import com.nbd.ocp.core.repository.tree.request.OcpTreeQueryBaseVo;
+import com.nbd.ocp.core.repository.tree.utils.OcpInnerCodeUtils;
 import com.nbd.ocp.core.repository.tree.utils.OcpTreeUtils;
 import com.nbd.ocp.core.repository.utils.OcpGenericsUtils;
 import com.nbd.ocp.core.repository.utils.OcpSpringUtil;
+import com.nbd.ocp.core.utils.bean.OcpBeanCompareUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -39,7 +44,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -51,6 +58,132 @@ public  interface IOcpTreeBaseServiceImpl<T extends IOcpTreeBaseDo,I extends IOc
     default I getTreeBaseDao(){
         return (I) OcpSpringUtil.getBean(OcpGenericsUtils.getDaoSuperClassGenericsType(getClass(), IOcpTreeBaseDao.class));
     }
+    String getInnerCodeKey();
+
+    @Override
+    @javax.transaction.Transactional(rollbackOn = Exception.class)
+    default T save(T t) throws ExistsDataException {
+        if(t==null|| StringUtils.isNotEmpty(t.getId())){
+            throw new ExistsDataException("数据已存在不允许新增","数据已存在不允许新增");
+        }
+        /** 获取内部码 */
+        t.setInnerCode(OcpInnerCodeUtils.getRedisKey(getInnerCodeKey(),this));
+        String cascadeInnerCode;
+        /**根节点为虚拟节点默认设置为root*/
+        if(StringUtils.isEmpty(t.getPid())|| OcpTreeBaseConstract.TREE_ROOT_ID.equals(t.getPid())){
+            t.setPid(OcpTreeBaseConstract.TREE_ROOT_ID);
+            cascadeInnerCode=t.getInnerCode();
+        }else{
+            IOcpTreeBaseDo treeBaseDoParent = (IOcpTreeBaseDo) getTreeBaseDao().findById(t.getPid()).get();
+            if(treeBaseDoParent!=null){
+                cascadeInnerCode=treeBaseDoParent.getCascadeInnerCode()+t.getInnerCode();
+            }else {
+                /** 父节点不存在抛出异常*/
+                throw new TreeException(TreeException.TREE_PARENT_IS_CHILDREN,TreeException.TREE_PARENT_IS_CHILDREN_MSG);
+            }
+        }
+        /** 设置级联内部码表示树的结构 */
+        t.setCascadeInnerCode(cascadeInnerCode);
+
+        T r= (T) getTreeBaseDao().save(t);
+        return r;
+    }
+
+
+    @Override
+    @javax.transaction.Transactional(rollbackOn = Exception.class)
+    default  List<T> saveAll(List<T> list) throws ExistsDataException {
+        if(list==null|list.size()<1){
+            return null;
+        }
+        List<T> result=new ArrayList<>();
+        for(T t:list){
+            result.add(save(t));
+        }
+        return result;
+    }
+
+
+
+    @Override
+    @javax.transaction.Transactional(rollbackOn = Exception.class)
+    default T updateSelective(T t) {
+        if(t.getId().equals(t.getPid())){
+            throw new TreeException(TreeException.TREE_PARENT_IS_SELF,TreeException.TREE_PARENT_IS_SELF_MSG);
+        }
+        T treeDoDb=getById(t.getId());
+        String cascadeInnerCode;
+        /**根节点为虚拟节点默认设置为root*/
+        if(StringUtils.isEmpty(t.getPid())|| OcpTreeBaseConstract.TREE_ROOT_ID.equals(t.getPid())){
+            t.setPid(OcpTreeBaseConstract.TREE_ROOT_ID);
+            /** 节点移动到根节点下、innerCode 和 cascadeInnerCode相同 */
+            cascadeInnerCode=t.getInnerCode();
+            t.setCascadeInnerCode(cascadeInnerCode);
+            /** 移动子节点、根据新的父节点设置CascadeInnerCode **/
+            moveAllChildren(treeDoDb.getCascadeInnerCode(),t.getCascadeInnerCode());
+        /**更新节点信息操作无需移动子节点*/
+        }else if(t.getPid().equals(treeDoDb.getPid())){
+        }else{
+            IOcpTreeBaseDo treeBaseDoParent =  (IOcpTreeBaseDo) getTreeBaseDao().findById(t.getPid()).get();
+            /** 判断父节点不存在 */
+            if(treeBaseDoParent==null){
+                throw new TreeException(TreeException.TREE_PARENT_NULL,TreeException.TREE_PARENT_NULL_MSG);
+            }
+            /** 不可移动父节点移动到子节点下 */
+            if(treeBaseDoParent.getCascadeInnerCode().startsWith(treeDoDb.getCascadeInnerCode())){
+                throw new TreeException(TreeException.TREE_PARENT_IS_CHILDREN,TreeException.TREE_PARENT_IS_CHILDREN_MSG);
+            }
+            /** 移动子节点、根据新的父节点设置CascadeInnerCode **/
+            cascadeInnerCode=treeDoDb.getCascadeInnerCode();
+            t.setCascadeInnerCode(treeBaseDoParent.getCascadeInnerCode()+treeDoDb.getInnerCode());
+            moveAllChildren(cascadeInnerCode,t.getCascadeInnerCode());
+        }
+        OcpBeanCompareUtils.combineSydwCore(t,treeDoDb);
+        T r = (T) getTreeBaseDao().save(treeDoDb);
+        return r;
+    }
+
+
+
+    @Override
+    @javax.transaction.Transactional(rollbackOn = Exception.class)
+    default  void deleteById(String id) {
+        T doDB=getById(id);
+        getTreeBaseDao().delete(doDB);
+    }
+
+    default void beforeDeleteById(T doDB){}
+
+    default void afterDeleteById(T doDB){}
+
+
+    @Override
+    default T getById(String id) {
+        Optional<T> optionalT =getTreeBaseDao().findOne((Specification<T>) (root, criteriaQuery, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            predicates.add(criteriaBuilder.equal(root.get(OcpCrudBaseDoConstant.DB_COLUMN_ID).as(String.class),id));
+            return criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()])).getRestriction();
+        });
+        T r=null;
+        if(optionalT.isPresent()){
+            r=optionalT.get();
+        }
+        return r;
+
+    }
+
+
+
+
+    @Override
+    default Page<T> page(final QueryPageBaseVo queryPageBaseVo) {
+        return getTreeBaseDao().page(queryPageBaseVo);
+    }
+    @Override
+    default List<T> list(QueryPageBaseVo queryBaseVo) {
+        return getTreeBaseDao().list(queryBaseVo);
+    }
+
 
     /**
      * 获取所有已生成的innercode中的最大值
@@ -167,4 +300,41 @@ public  interface IOcpTreeBaseServiceImpl<T extends IOcpTreeBaseDo,I extends IOc
 
         return result;
     }
+
+
+    default void setPTitle(T r){
+        if(r==null||StringUtils.isEmpty(r.getPid())){
+            return;
+        }
+        if(OcpTreeBaseConstract.TREE_ROOT_ID.equals(r.getPid())){
+            r.setPTitle(OcpTreeBaseConstract.TREE_ROOT_NAME);
+            return;
+        }
+        T treeBaseDoParent =  getById(r.getPid()) ;
+        if(treeBaseDoParent==null){
+            return;
+        }
+        r.setPTitle(treeBaseDoParent.getTitle());
+    }
+    default void setPTitle(List<T> list){
+        List<String> pIds=new ArrayList<>();
+        for(T treeBaseDo:list){
+            pIds.add(treeBaseDo.getPid());
+        }
+        List<T> treeBaseDoList=getTreeBaseDao().findByIdIn(pIds);
+        Map<String,T> treeBaseDoMap=new HashMap<>();
+        for(T treeBaseDo:treeBaseDoList){
+            treeBaseDoMap.put(treeBaseDo.getId(),treeBaseDo);
+        }
+        for(T treeBaseDo:list){
+            String pid=treeBaseDo.getPid();
+            if(OcpTreeBaseConstract.TREE_ROOT_ID.equals(pid)){
+                treeBaseDo.setPTitle(OcpTreeBaseConstract.TREE_ROOT_NAME);
+            }else {
+                T treeBaseDoParent=treeBaseDoMap.get(pid);
+                treeBaseDo.setPTitle(treeBaseDoParent.getTitle());
+            }
+        }
+    }
+
 }

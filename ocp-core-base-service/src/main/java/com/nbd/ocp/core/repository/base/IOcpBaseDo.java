@@ -36,5 +36,13 @@ import java.io.Serializable;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public interface IOcpBaseDo extends Serializable {
 
-
+    /**
+     * id
+     *     @Id
+     *     @GenericGenerator(name="system-uuid", strategy = "uuid.hex")
+     *     @GeneratedValue(generator="system-uuid")
+     *     @Column(name="id",length = 32)
+     * @return id
+     */
+    String getId();
 }

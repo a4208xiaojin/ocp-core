@@ -23,7 +23,7 @@ package com.nbd.ocp.core.repository.tree;
              佛祖保佑       永无BUG
 */
 
-import com.nbd.ocp.core.repository.crud.IOcpCrudBaseDao;
+import com.nbd.ocp.core.repository.base.IOcpBaseDao;
 import org.springframework.data.repository.NoRepositoryBean;
 
 import java.io.Serializable;
@@ -33,7 +33,7 @@ import java.util.List;
  * @author jhb
  */
 @NoRepositoryBean
-public  interface IOcpTreeBaseDao<T extends IOcpTreeBaseDo,ID extends Serializable>  extends IOcpCrudBaseDao<T, ID> {
+public  interface IOcpTreeBaseDao<T extends IOcpTreeBaseDo,ID extends Serializable>  extends IOcpBaseDao<T, ID> {
 
     List<IOcpTreeBaseDo> findByIdIn(List<String> pIds);
 }
