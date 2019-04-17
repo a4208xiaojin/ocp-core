@@ -36,7 +36,7 @@ import java.util.Map;
 @Data
 @JsonIgnoreProperties(ignoreUnknown=true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class QueryPageBaseVo  {
+public class OcpQueryPageBaseVo {
     private Map<String,Object> parameters;
     private List<String> ids;
     private     List<Integer>      statusList;

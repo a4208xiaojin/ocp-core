@@ -1,9 +1,10 @@
-package com.nbd.ocp.core.repository;
+package com.nbd.ocp.core.repository.base.repository;
 
 import com.nbd.ocp.core.repository.base.IOcpBaseDo;
+import com.nbd.ocp.core.repository.base.repository.OcpRepository;
 import com.nbd.ocp.core.repository.constant.OcpCrudBaseDoConstant;
-import com.nbd.ocp.core.repository.request.QueryPageBaseConstant;
-import com.nbd.ocp.core.repository.request.QueryPageBaseVo;
+import com.nbd.ocp.core.repository.request.OcpQueryPageBaseConstant;
+import com.nbd.ocp.core.repository.request.OcpQueryPageBaseVo;
 import com.nbd.ocp.core.repository.utils.OcpBaseDaoUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
@@ -25,6 +26,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author jin
+ */
 public class OcpRepositoryImpl<T extends IOcpBaseDo, ID extends Serializable>
   extends SimpleJpaRepository<T, ID> implements OcpRepository<T, ID> {
     private final   JpaEntityInformation<T, ?> entityInformation;
@@ -45,17 +49,17 @@ public class OcpRepositoryImpl<T extends IOcpBaseDo, ID extends Serializable>
     }
 
     @Override
-    public Page<T> page(final QueryPageBaseVo queryPageBaseVo){
-        Pageable pageable = OcpBaseDaoUtils.generatedPage(queryPageBaseVo.getPageIndex(),queryPageBaseVo.getPageSize(),queryPageBaseVo.getSortMap());
+    public Page<T> page(final OcpQueryPageBaseVo ocpQueryPageBaseVo){
+        Pageable pageable = OcpBaseDaoUtils.generatedPage(ocpQueryPageBaseVo.getPageIndex(), ocpQueryPageBaseVo.getPageSize(), ocpQueryPageBaseVo.getSortMap());
         Page<T> page= findAll((Specification<T>) (root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
-            generatePredicate(predicates,queryPageBaseVo,root,criteriaBuilder);
+            generatePredicate(predicates, ocpQueryPageBaseVo,root,criteriaBuilder);
             return criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()])).getRestriction();
         },pageable);
         return page;
     }
     @Override
-    public List<T> list( QueryPageBaseVo queryBaseVo) {
+    public List<T> list( OcpQueryPageBaseVo queryBaseVo) {
         List<T> list=findAll((Specification<T>) (root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             generatePredicate(predicates,queryBaseVo,root,criteriaBuilder);
@@ -63,7 +67,19 @@ public class OcpRepositoryImpl<T extends IOcpBaseDo, ID extends Serializable>
         });
         return list;
     }
-    private void generatePredicate(List<Predicate> predicates,QueryPageBaseVo queryBaseVo,Root<T> root, CriteriaBuilder criteriaBuilder){
+
+    public Page<T> pageByNativeSql(){
+        return null;
+    }
+    public List<T> listByNativeSql(){
+        return null;
+    }
+
+    public T getByNativeSql(){
+        return null;
+    }
+
+    private void generatePredicate(List<Predicate> predicates, OcpQueryPageBaseVo queryBaseVo, Root<T> root, CriteriaBuilder criteriaBuilder){
 
         Map<String,Object> parameters=queryBaseVo.getParameters();
         List<String> ids=queryBaseVo.getIds();
@@ -79,7 +95,7 @@ public class OcpRepositoryImpl<T extends IOcpBaseDo, ID extends Serializable>
 
     private void generateParametersPredicates(Map<String, Object> parameters, List<Predicate> predicates, Root<T> root, CriteriaBuilder criteriaBuilder){
         if(parameters!=null&&parameters.size()>1){
-            final  String searchQu=parameters.get(QueryPageBaseConstant.VO_FIELD_FILTER_METHOD)==null?null:String.valueOf(parameters.get(QueryPageBaseConstant.VO_FIELD_FILTER_METHOD));
+            final  String searchQu=parameters.get(OcpQueryPageBaseConstant.VO_FIELD_FILTER_METHOD)==null?null:String.valueOf(parameters.get(OcpQueryPageBaseConstant.VO_FIELD_FILTER_METHOD));
             if(StringUtils.isNotEmpty(searchQu)&&parameters!=null&&parameters.size()>0){
                 Predicate predicateParameters = OcpBaseDaoUtils.generateQuery(root,   criteriaBuilder,searchQu, parameters);
                 if(predicateParameters !=null){
@@ -88,5 +104,4 @@ public class OcpRepositoryImpl<T extends IOcpBaseDo, ID extends Serializable>
             }
         }
     }
-
 }

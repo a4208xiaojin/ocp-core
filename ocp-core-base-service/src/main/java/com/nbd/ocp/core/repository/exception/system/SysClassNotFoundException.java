@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.jpa.crud.dao;
+package com.nbd.ocp.core.repository.exception.system;
 /*
                        _ooOoo_
                       o8888888o
@@ -23,20 +23,29 @@ package com.nbd.ocp.core.jpa.crud.dao;
 */
 
 
-import com.nbd.ocp.core.jpa.crud.entity.OcpUserDo;
-import com.nbd.ocp.core.repository.crud.IOcpCrudBaseDao;
-import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpCurrentTenant;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-
-import java.util.List;
-
+import com.nbd.base.exception.system.code.SystemExceptionCodeConstant;
 
 /**
  * @author jin
  */
-@OcpCurrentTenant
-public interface IOcpUserDao extends IOcpCrudBaseDao<OcpUserDo, String> {
-    @Query(value = "select * from nbd_user_tenancy ",nativeQuery = true)
-    List<OcpUserDo> listUsers();
+public class SysClassNotFoundException extends SystemException {
+    public SysClassNotFoundException(Throwable t, String responseMsg) {
+        super(t,responseMsg);
+    }
+    public SysClassNotFoundException(String message) {
+        super(message);
+    }
+
+    public SysClassNotFoundException(String message, String responseMsg) {
+        super(message, responseMsg);
+    }
+
+    public SysClassNotFoundException(String code, String message, String responseMsg) {
+        super(message, responseMsg);
+        setCode(code);
+    }
+    @Override
+    public String errorCode() {
+        return SystemExceptionCodeConstant.CLASS_NO_FOUND;
+    }
 }

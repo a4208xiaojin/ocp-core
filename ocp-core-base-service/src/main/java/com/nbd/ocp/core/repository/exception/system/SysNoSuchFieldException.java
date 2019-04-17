@@ -28,24 +28,24 @@ import com.nbd.base.exception.system.code.SystemExceptionCodeConstant;
 /**
  * @author jin
  */
-public class ClassNotFoundException extends SystemException {
-    public ClassNotFoundException(Throwable t,String responseMsg) {
+public class SysNoSuchFieldException extends SystemException {
+    public SysNoSuchFieldException(Throwable t, String responseMsg) {
         super(t,responseMsg);
     }
-    public ClassNotFoundException(String message) {
+    public SysNoSuchFieldException(String message) {
         super(message);
     }
 
-    public ClassNotFoundException(String message, String responseMsg) {
+    public SysNoSuchFieldException(String message, String responseMsg) {
         super(message, responseMsg);
     }
 
-    public ClassNotFoundException(String code,String message, String responseMsg) {
+    public SysNoSuchFieldException(String code, String message, String responseMsg) {
         super(message, responseMsg);
         setCode(code);
     }
     @Override
     public String errorCode() {
-        return SystemExceptionCodeConstant.CLASS_NO_FOUND;
+        return SystemExceptionCodeConstant.NO_SUCH_FIELD;
     }
 }

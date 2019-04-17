@@ -23,7 +23,7 @@ package com.nbd.ocp.core.repository.base;
              佛祖保佑       永无BUG
 */
 
-import com.nbd.ocp.core.repository.OcpRepository;
+import com.nbd.ocp.core.repository.base.repository.OcpRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
 import java.io.Serializable;

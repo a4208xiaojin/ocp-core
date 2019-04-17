@@ -22,7 +22,7 @@ package com.nbd.ocp.core.repository.request;
              佛祖保佑       永无BUG
 */
 
-public class QueryPageBaseConstant {
+public class OcpQueryPageBaseConstant {
     public static String VO_FIELD_FILTER_METHOD="parameters.method_name_segment_1";
 
 }

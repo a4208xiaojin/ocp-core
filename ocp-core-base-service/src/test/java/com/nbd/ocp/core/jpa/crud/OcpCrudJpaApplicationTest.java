@@ -4,10 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.nbd.ocp.core.jpa.crud.entity.OcpUserDo;
 import com.nbd.ocp.core.jpa.crud.service.IOcpUserService;
-import com.nbd.ocp.core.repository.OcpRepositoryImpl;
+import com.nbd.ocp.core.repository.base.repository.OcpJpaRepositoryFactoryBean;
 import com.nbd.ocp.core.repository.multiTenancy.context.OcpTenantContextHolder;
-import com.nbd.ocp.core.repository.request.QueryPageBaseConstant;
-import com.nbd.ocp.core.repository.request.QueryPageBaseVo;
+import com.nbd.ocp.core.repository.request.OcpQueryPageBaseConstant;
+import com.nbd.ocp.core.repository.request.OcpQueryPageBaseVo;
 import com.nbd.ocp.core.utils.uri.OcpUriParamUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +15,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.core.annotation.Order;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
@@ -39,7 +38,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @Rollback(false)
 @ComponentScan(basePackages="com.nbd.ocp.core.jpa")
-@EnableJpaRepositories( basePackages = "com.nbd.ocp.core.jpa",repositoryBaseClass= OcpRepositoryImpl.class)
+@EnableJpaRepositories( basePackages = "com.nbd.ocp.core.jpa",repositoryFactoryBeanClass= OcpJpaRepositoryFactoryBean.class)
+
 public class OcpCrudJpaApplicationTest {
 
 	@Autowired
@@ -82,8 +82,14 @@ public class OcpCrudJpaApplicationTest {
 		System.out.println(JSON.toJSONString(userService.findAll().size()));
 		OcpTenantContextHolder.setTenant("nbd");
 		System.out.println(JSON.toJSONString(userService.findAll().size()));
+
+	}
+
+	@Test
+	public  void listUsers(){
 		System.out.println(JSON.toJSONString(userService.listUsers().size()));
 	}
+	@Test
 	public void testAddController() throws Exception {
 		OcpUserDo UserDO =new OcpUserDo();
 		UserDO.setEmail("d");
@@ -99,12 +105,12 @@ public class OcpCrudJpaApplicationTest {
 
 	@Test
 	public void testPageController() throws Exception {
-		QueryPageBaseVo queryPageBaseVo =new QueryPageBaseVo();
-		queryPageBaseVo.setPageIndex(1);
-		queryPageBaseVo.setPageSize(20);
+		OcpQueryPageBaseVo ocpQueryPageBaseVo =new OcpQueryPageBaseVo();
+		ocpQueryPageBaseVo.setPageIndex(1);
+		ocpQueryPageBaseVo.setPageSize(20);
 
 		Map<String,Object> map=new HashMap<>();
-		map.put(QueryPageBaseConstant.VO_FIELD_FILTER_METHOD,"findByUserNameEqualsOrUserCodeLikeAndPasswordLikeOrIdIn");
+		map.put(OcpQueryPageBaseConstant.VO_FIELD_FILTER_METHOD,"findByUserNameEqualsOrUserCodeLikeAndPasswordLikeOrIdIn");
 		map.put("userName","aaa");
 		map.put("userCode","bbb");
 		map.put("password","ccc");
@@ -112,10 +118,10 @@ public class OcpCrudJpaApplicationTest {
 		ids.add("ff80808169d9b5220169d9b5317b0001");
 		ids.add("eee");
 		map.put("id",ids);
-		queryPageBaseVo.setParameters(map);
-		queryPageBaseVo.setIds(ids);
+		ocpQueryPageBaseVo.setParameters(map);
+		ocpQueryPageBaseVo.setIds(ids);
 
-		MvcResult result = mockMvc.perform(get("/user/page?"+ OcpUriParamUtil.bean2UrlParamStr( queryPageBaseVo)))
+		MvcResult result = mockMvc.perform(get("/user/page?"+ OcpUriParamUtil.bean2UrlParamStr(ocpQueryPageBaseVo)))
 				.andExpect(status().isOk())
 				.andReturn();
 
@@ -124,10 +130,10 @@ public class OcpCrudJpaApplicationTest {
 
 	@Test
 	public void testListController() throws Exception {
-		QueryPageBaseVo queryPageBaseVo =new QueryPageBaseVo();
+		OcpQueryPageBaseVo ocpQueryPageBaseVo =new OcpQueryPageBaseVo();
 
 		Map<String,Object> map=new HashMap<>();
-		map.put(QueryPageBaseConstant.VO_FIELD_FILTER_METHOD,"findByUserNameEqualsOrUserCodeLikeAndPasswordLikeOrIdIn");
+		map.put(OcpQueryPageBaseConstant.VO_FIELD_FILTER_METHOD,"findByUserNameEqualsOrUserCodeLikeAndPasswordLikeOrIdIn");
 		map.put("userName","aaa");
 		map.put("userCode","bbb");
 		map.put("password","ccc");
@@ -135,9 +141,9 @@ public class OcpCrudJpaApplicationTest {
 		ids.add("ddd");
 		ids.add("eee");
 		map.put("id",ids);
-		queryPageBaseVo.setParameters(map);
-		queryPageBaseVo.setIds(ids);
-		MvcResult result = mockMvc.perform(get("/user/list?"+OcpUriParamUtil.bean2UrlParamStr( queryPageBaseVo)))
+		ocpQueryPageBaseVo.setParameters(map);
+		ocpQueryPageBaseVo.setIds(ids);
+		MvcResult result = mockMvc.perform(get("/user/list?"+OcpUriParamUtil.bean2UrlParamStr(ocpQueryPageBaseVo)))
 				.andExpect(status().isOk())
 				.andReturn();
 

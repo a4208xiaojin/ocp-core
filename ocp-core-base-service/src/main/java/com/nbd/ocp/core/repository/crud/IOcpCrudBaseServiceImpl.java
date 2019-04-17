@@ -25,8 +25,8 @@ package com.nbd.ocp.core.repository.crud;
 
 
 import com.nbd.ocp.core.repository.constant.OcpCrudBaseDoConstant;
-import com.nbd.ocp.core.repository.exception.service.ExistsDataException;
-import com.nbd.ocp.core.repository.request.QueryPageBaseVo;
+import com.nbd.ocp.core.repository.exception.system.ExistsDataException;
+import com.nbd.ocp.core.repository.request.OcpQueryPageBaseVo;
 import com.nbd.ocp.core.repository.utils.OcpGenericsUtils;
 import com.nbd.ocp.core.repository.utils.OcpSpringUtil;
 import com.nbd.ocp.core.utils.bean.OcpBeanCompareUtils;
@@ -50,7 +50,7 @@ public interface IOcpCrudBaseServiceImpl<T extends IOcpCrudBaseDo,I extends IOcp
     }
     @Override
     @Transactional(rollbackOn = Exception.class)
-    default T save(T t) throws ExistsDataException {
+    default T save(T t) {
         if(t==null|| StringUtils.isNotEmpty(t.getId())){
             throw new ExistsDataException("数据已存在不允许新增","数据已存在不允许新增");
         }
@@ -87,6 +87,7 @@ public interface IOcpCrudBaseServiceImpl<T extends IOcpCrudBaseDo,I extends IOcp
 
 
 
+    @Override
     default T getById(String id) {
         Optional<T> optionalT =getCrudBaseDao().findOne((Specification<T>) (root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -101,12 +102,12 @@ public interface IOcpCrudBaseServiceImpl<T extends IOcpCrudBaseDo,I extends IOcp
 
     }
     @Override
-    default Page<T> page(final QueryPageBaseVo queryPageBaseVo) {
-        Page<T> page= getCrudBaseDao().page(queryPageBaseVo);
+    default Page<T> page(final OcpQueryPageBaseVo ocpQueryPageBaseVo) {
+        Page<T> page= getCrudBaseDao().page(ocpQueryPageBaseVo);
         return page;
     }
     @Override
-    default List<T> list(QueryPageBaseVo queryBaseVo) {
+    default List<T> list(OcpQueryPageBaseVo queryBaseVo) {
         List<T> list= (List<T>) getCrudBaseDao().list(queryBaseVo);
 
         return list;

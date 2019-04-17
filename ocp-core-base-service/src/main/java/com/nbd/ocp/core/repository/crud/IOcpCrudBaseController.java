@@ -25,7 +25,7 @@ package com.nbd.ocp.core.repository.crud;
 
 import com.nbd.ocp.core.repository.base.IOcpBaseController;
 import com.nbd.ocp.core.repository.exception.service.ServiceException;
-import com.nbd.ocp.core.repository.request.QueryPageBaseVo;
+import com.nbd.ocp.core.repository.request.OcpQueryPageBaseVo;
 import com.nbd.ocp.core.repository.response.OcpJsonResponse;
 import com.nbd.ocp.core.repository.utils.OcpGenericsUtils;
 import com.nbd.ocp.core.repository.utils.OcpSpringUtil;
@@ -52,13 +52,8 @@ public interface IOcpCrudBaseController<T extends IOcpCrudBaseDo,I extends IOcpC
     @RequestMapping(value = "add",method = RequestMethod.POST)
     @ResponseBody
     default OcpJsonResponse add(@RequestBody T t) {
-        try {
-            T r= (T) getCrudBaseService().save(t);
-            return OcpJsonResponse.success("新增成功",r);
-        }catch (ServiceException e){
-            logger.error(e.getMessage(),e);
-            return OcpJsonResponse.failed(e.getCode(),e.getResponseMsg());
-        }
+        T r= (T) getCrudBaseService().save(t);
+        return OcpJsonResponse.success("新增成功",r);
     }
     @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
     @ResponseBody
@@ -81,14 +76,14 @@ public interface IOcpCrudBaseController<T extends IOcpCrudBaseDo,I extends IOcpC
 
     @RequestMapping(value = "/page",method = RequestMethod.GET)
     @ResponseBody
-    default OcpJsonResponse page(QueryPageBaseVo queryPageBaseVo) {
-        Page<T> r=getCrudBaseService().page(queryPageBaseVo);
+    default OcpJsonResponse page(OcpQueryPageBaseVo ocpQueryPageBaseVo) {
+        Page<T> r=getCrudBaseService().page(ocpQueryPageBaseVo);
         return OcpJsonResponse.success("查询成功",r);
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    default OcpJsonResponse list(QueryPageBaseVo queryBaseVo) {
+    default OcpJsonResponse list(OcpQueryPageBaseVo queryBaseVo) {
         List<T> r =getCrudBaseService().list(queryBaseVo);
         return OcpJsonResponse.success("查询成功",r);
     }

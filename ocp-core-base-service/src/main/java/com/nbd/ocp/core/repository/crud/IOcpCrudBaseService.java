@@ -25,9 +25,8 @@ package com.nbd.ocp.core.repository.crud;
 
 
 import com.nbd.ocp.core.repository.base.IOcpBaseService;
-import com.nbd.ocp.core.repository.exception.service.ExistsDataException;
 import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpCurrentTenant;
-import com.nbd.ocp.core.repository.request.QueryPageBaseVo;
+import com.nbd.ocp.core.repository.request.OcpQueryPageBaseVo;
 import org.springframework.data.domain.Page;
 import java.util.List;
 
@@ -38,7 +37,7 @@ import java.util.List;
 @org.springframework.transaction.annotation.Transactional(readOnly = true,rollbackFor = Exception.class)
 @OcpCurrentTenant
 public interface IOcpCrudBaseService<T extends IOcpCrudBaseDo,I extends IOcpCrudBaseDao> extends IOcpBaseService<T,I> {
-    T save(T crudBaseDo) throws ExistsDataException;
+    T save(T crudBaseDo) ;
 
     List<T> saveAll(List<T> list);
 
@@ -49,8 +48,8 @@ public interface IOcpCrudBaseService<T extends IOcpCrudBaseDo,I extends IOcpCrud
 
     T getById(String id);
 
-    Page<T> page(QueryPageBaseVo queryPageBaseVo);
+    Page<T> page(OcpQueryPageBaseVo ocpQueryPageBaseVo);
 
-    List<T> list( QueryPageBaseVo queryBaseVo);
+    List<T> list( OcpQueryPageBaseVo queryBaseVo);
 
 }

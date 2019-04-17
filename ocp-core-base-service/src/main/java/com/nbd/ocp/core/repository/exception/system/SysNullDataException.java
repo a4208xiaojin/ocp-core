@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.repository.tree.request;
+package com.nbd.ocp.core.repository.exception.system;
 /*
                        _ooOoo_
                       o8888888o
@@ -23,13 +23,22 @@ package com.nbd.ocp.core.repository.tree.request;
 */
 
 
-import com.nbd.ocp.core.repository.request.QueryPageBaseVo;
-import lombok.Data;
 
-/**
- * @author jin
- */
-@Data
-public class OcpTreeQueryBaseVo extends QueryPageBaseVo {
-    private String pid;
+public class SysNullDataException extends SystemException {
+    public SysNullDataException(Throwable t, String responseMsg) {
+        super(t,responseMsg);
+    }
+
+    public SysNullDataException(String message) {
+        super(message);
+    }
+
+    public SysNullDataException(String message, String responseMsg) {
+        super(message, responseMsg);
+    }
+
+    @Override
+    public String errorCode() {
+        return com.nbd.base.exception.system.code.SystemExceptionCodeConstant.NULL;
+    }
 }

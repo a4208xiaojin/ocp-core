@@ -25,7 +25,7 @@ package com.nbd.ocp.core.repository.tree.utils;
 
 
 import com.nbd.ocp.core.repository.tree.IOcpTreeBaseDo;
-import com.nbd.ocp.core.repository.tree.constant.OcpTreeBaseConstract;
+import com.nbd.ocp.core.repository.tree.constant.OcpTreeBaseConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,7 +60,7 @@ public class OcpTreeUtils {
             String cascadeInnerCode=t.getCascadeInnerCode();
             String cascadeInnerCodeParent=cascadeInnerCode.substring(0,cascadeInnerCode.length()-6);
             if(cascadeInnerCode.length()==6||map.get(cascadeInnerCodeParent)==null){
-                t.setPTitle(OcpTreeBaseConstract.TREE_ROOT_NAME);
+                t.setPTitle(OcpTreeBaseConstant.TREE_ROOT_NAME);
                 result.getChildren().add(t);
             }else{
                 T treeParent=map.get(cascadeInnerCodeParent);

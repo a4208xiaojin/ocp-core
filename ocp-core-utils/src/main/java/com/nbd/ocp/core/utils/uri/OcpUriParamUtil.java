@@ -55,7 +55,7 @@ public class OcpUriParamUtil {
         return s;
     }
 
-    private static Map<String,String> bean2UrlParamsMap(Object obj, String parentName) throws IllegalArgumentException {
+    public static Map<String,String> bean2UrlParamsMap(Object obj, String parentName) throws IllegalArgumentException {
         System.out.println(JSON.toJSONString(obj));
         parentName=parentName==null?"":parentName;
         Map<String,String> map= new LinkedHashMap<>();

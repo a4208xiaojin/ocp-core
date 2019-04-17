@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.jpa.crud.dao;
+package com.nbd.ocp.core.repository.tree.constant;
 /*
                        _ooOoo_
                       o8888888o
@@ -22,21 +22,7 @@ package com.nbd.ocp.core.jpa.crud.dao;
              佛祖保佑       永无BUG
 */
 
-
-import com.nbd.ocp.core.jpa.crud.entity.OcpUserDo;
-import com.nbd.ocp.core.repository.crud.IOcpCrudBaseDao;
-import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpCurrentTenant;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-
-import java.util.List;
-
-
-/**
- * @author jin
- */
-@OcpCurrentTenant
-public interface IOcpUserDao extends IOcpCrudBaseDao<OcpUserDo, String> {
-    @Query(value = "select * from nbd_user_tenancy ",nativeQuery = true)
-    List<OcpUserDo> listUsers();
+public class OcpTreeBaseConstant {
+    public static  final  String TREE_ROOT_ID="root";
+    public static  final  String TREE_ROOT_NAME="根节点";
 }

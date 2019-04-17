@@ -10,20 +10,33 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.hibernate.Session;
+import org.hibernate.query.NativeQuery;
+import org.hibernate.query.internal.NativeQueryImpl;
 import org.springframework.context.annotation.Conditional;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.JpaQueryMethod;
+import org.springframework.data.repository.query.ReturnedType;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Tuple;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.util.Map;
 
 @Aspect
 @Component
 @Conditional(OcpMultiTenancyDiscriminatorCondition.class)
 public class OcpMultiTenancyDiscriminatorAspect {
 
+  @PersistenceContext
+  private  EntityManager em;
 
   @Pointcut(value = "(@within(com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpCurrentTenant) || @annotation(com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpCurrentTenant))")
   void hasCurrentTenantAnnotation() {}
@@ -34,34 +47,67 @@ public class OcpMultiTenancyDiscriminatorAspect {
   @Pointcut(value = "@within(com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpWithoutTenant) || @annotation(com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpWithoutTenant)")
   void hasWithoutTenantAnnotation() {}
 
+  @Pointcut(value = "@annotation(org.springframework.data.jpa.repository.Query)")
+  void hasNativeQueryAnnotation() {}
+
   @Pointcut(value = "hasCurrentTenantAnnotation() || hasTenantAnnotation() || hasWithoutTenantAnnotation()")
   void hasMultiTenantAnnotation() {}
+
 
   @PersistenceContext
   public EntityManager entityManager;
 
-  @Around("execution(public * *(..)) && hasMultiTenantAnnotation()")
+  @Around("execution(public * *(..)) && hasMultiTenantAnnotation() && !hasNativeQueryAnnotation()")
   public Object aroundExecution(ProceedingJoinPoint pjp) throws Throwable {
-//      final String methodName = pjp.getSignature().getName();
-      final MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
-      Method method = methodSignature.getMethod();
-//      if (!method.isDefault()&&method.getDeclaringClass().isInterface()) {
-//        method = pjp.getTarget().getClass().getDeclaredMethod(methodName, method.getParameterTypes());
-//      }
-      Annotation multiTenantAnnotation = getMultiTenantAnnotation(method);
-      if (multiTenantAnnotation == null) {
-        multiTenantAnnotation = getMultiTenantAnnotation(method.getDeclaringClass());
+    Method method=getMethod(pjp);
+    Annotation multiTenantAnnotation = getTenantAnnotation(method);
+    if (multiTenantAnnotation != null && !(multiTenantAnnotation instanceof OcpWithoutTenant)) {
+      String tenantId = OcpTenantContextHolder.getContext().getTenantId();
+      if (multiTenantAnnotation instanceof OcpTenant) {
+        tenantId = ((OcpTenant) multiTenantAnnotation).value();
       }
-      if (multiTenantAnnotation != null && !(multiTenantAnnotation instanceof OcpWithoutTenant)) {
-        String tenantId = OcpTenantContextHolder.getContext().getTenantId();
-        if (multiTenantAnnotation instanceof OcpTenant) {
-          tenantId = ((OcpTenant) multiTenantAnnotation).value();
-        }
-        org.hibernate.Filter filter = entityManager.unwrap(Session.class).enableFilter("tenantFilter");
-        filter.setParameter("tenantId", tenantId);
-        filter.validate();
-      }
+      org.hibernate.Filter filter = entityManager.unwrap(Session.class).enableFilter("tenantFilter");
+      filter.setParameter("tenantId", tenantId);
+      filter.validate();
+    }
     return pjp.proceed();
+  }
+
+  @Around(value="execution(public * *(..)) && hasMultiTenantAnnotation() && hasNativeQueryAnnotation() ")
+  public Object aroundNativeExecution(ProceedingJoinPoint pjp) throws Throwable {
+    Method method=getMethod(pjp);
+    Annotation multiTenantAnnotation = getTenantAnnotation(method);
+    if (multiTenantAnnotation != null && !(multiTenantAnnotation instanceof OcpWithoutTenant) ) {
+      String tenantId = OcpTenantContextHolder.getContext().getTenantId();
+      if (multiTenantAnnotation instanceof OcpTenant) {
+        tenantId = ((OcpTenant) multiTenantAnnotation).value();
+      }
+
+//      Query queryAnnotation = method.getAnnotation(Query.class);
+//      if (queryAnnotation != null&&queryAnnotation.nativeQuery()){
+//        InvocationHandler invocationHandler = Proxy.getInvocationHandler(queryAnnotation);
+//        Field value = invocationHandler.getClass().getDeclaredField("memberValues");
+//        value.setAccessible(true);
+//        Map<String, Object> memberValues = (Map<String, Object>) value.get(invocationHandler);
+//        memberValues.put("value","test");
+//      }
+    }
+    return pjp.proceed();
+  }
+
+  private Method getMethod(ProceedingJoinPoint pjp){
+    final MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
+    Method method = methodSignature.getMethod();
+    return method;
+  }
+
+  private Annotation getTenantAnnotation(Method method){
+
+    Annotation multiTenantAnnotation = getMultiTenantAnnotation(method);
+    if (multiTenantAnnotation == null) {
+      multiTenantAnnotation = getMultiTenantAnnotation(method.getDeclaringClass());
+    }
+    return multiTenantAnnotation;
   }
 
   private Annotation getMultiTenantAnnotation(AnnotatedElement element) {

@@ -22,30 +22,21 @@ package com.nbd.ocp.core.repository.exception.system;
              佛祖保佑       永无BUG
 */
 
-
 import com.nbd.base.exception.system.code.SystemExceptionCodeConstant;
 
-/**
- * @author jin
- */
-public class NoSuchFieldException extends SystemException {
-    public NoSuchFieldException(Throwable t, String responseMsg) {
+public class ExistsDataException extends SystemException {
+
+    public ExistsDataException(Throwable t, String responseMsg) {
         super(t,responseMsg);
     }
-    public NoSuchFieldException(String message) {
+    public ExistsDataException(String message) {
         super(message);
     }
-
-    public NoSuchFieldException(String message, String responseMsg) {
+    public ExistsDataException(String message, String responseMsg) {
         super(message, responseMsg);
-    }
-
-    public NoSuchFieldException(String code, String message, String responseMsg) {
-        super(message, responseMsg);
-        setCode(code);
     }
     @Override
     public String errorCode() {
-        return SystemExceptionCodeConstant.NO_SUCH_FIELD;
+        return SystemExceptionCodeConstant.EXISTS_DATA;
     }
 }

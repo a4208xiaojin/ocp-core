@@ -25,7 +25,7 @@ package com.nbd.ocp.core.repository.crud.plugin;
 import com.nbd.ocp.core.repository.base.plugin.IOcpBaseCommonPlugin;
 import com.nbd.ocp.core.repository.crud.IOcpCrudBaseDao;
 import com.nbd.ocp.core.repository.crud.IOcpCrudBaseDo;
-import com.nbd.ocp.core.repository.request.QueryPageBaseVo;
+import com.nbd.ocp.core.repository.request.OcpQueryPageBaseVo;
 import org.springframework.data.domain.Page;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -64,13 +64,13 @@ public interface IOcpBaseCrudCommonPlugin<T extends IOcpCrudBaseDo,I extends IOc
 
     void afterGetById(I baseDao, T r);
 
-    Predicate beforePage(I baseDao, Root<T> root, CriteriaBuilder criteriaBuilder, QueryPageBaseVo queryPageBaseVo);
+    Predicate beforePage(I baseDao, Root<T> root, CriteriaBuilder criteriaBuilder, OcpQueryPageBaseVo ocpQueryPageBaseVo);
 
-    void afterPage(I baseDao, Page<T> page, QueryPageBaseVo queryPageBaseVo);
+    void afterPage(I baseDao, Page<T> page, OcpQueryPageBaseVo ocpQueryPageBaseVo);
 
-    Predicate beforeList(I baseDao, Root<T> root, CriteriaBuilder criteriaBuilder, QueryPageBaseVo queryBaseVo);
+    Predicate beforeList(I baseDao, Root<T> root, CriteriaBuilder criteriaBuilder, OcpQueryPageBaseVo queryBaseVo);
 
-    void afterList(I baseDao, List<T> list, QueryPageBaseVo queryBaseVo);
+    void afterList(I baseDao, List<T> list, OcpQueryPageBaseVo queryBaseVo);
 
 
 

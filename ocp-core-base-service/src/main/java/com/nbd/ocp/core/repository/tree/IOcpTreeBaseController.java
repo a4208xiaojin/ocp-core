@@ -23,9 +23,8 @@ package com.nbd.ocp.core.repository.tree;
 */
 
 import com.nbd.ocp.core.repository.base.IOcpBaseController;
-import com.nbd.ocp.core.repository.crud.IOcpCrudBaseController;
 import com.nbd.ocp.core.repository.response.OcpJsonResponse;
-import com.nbd.ocp.core.repository.tree.request.OcpTreeQueryBaseVo;
+import com.nbd.ocp.core.repository.tree.request.OcpTreeOcpQueryBaseVo;
 import com.nbd.ocp.core.repository.utils.OcpGenericsUtils;
 import com.nbd.ocp.core.repository.utils.OcpSpringUtil;
 import org.slf4j.Logger;
@@ -49,7 +48,7 @@ public interface IOcpTreeBaseController<T extends IOcpTreeBaseDo,I extends IOcpT
 
     @RequestMapping(value = "/list-tree", method = RequestMethod.GET)
     @ResponseBody
-    default OcpJsonResponse listTree(OcpTreeQueryBaseVo treeQueryBaseVo) {
+    default OcpJsonResponse listTree(OcpTreeOcpQueryBaseVo treeQueryBaseVo) {
         try {
             List<T> r =getTreeBaseService().listTree(treeQueryBaseVo);
             return OcpJsonResponse.success("查询成功",r);

@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.repository.tree.constant;
+package com.nbd.ocp.core.repository.tree.request;
 /*
                        _ooOoo_
                       o8888888o
@@ -22,7 +22,14 @@ package com.nbd.ocp.core.repository.tree.constant;
              佛祖保佑       永无BUG
 */
 
-public class OcpTreeBaseConstract {
-    public static  final  String TREE_ROOT_ID="root";
-    public static  final  String TREE_ROOT_NAME="根节点";
+
+import com.nbd.ocp.core.repository.request.OcpQueryPageBaseVo;
+import lombok.Data;
+
+/**
+ * @author jin
+ */
+@Data
+public class OcpTreeOcpQueryBaseVo extends OcpQueryPageBaseVo {
+    private String pid;
 }
