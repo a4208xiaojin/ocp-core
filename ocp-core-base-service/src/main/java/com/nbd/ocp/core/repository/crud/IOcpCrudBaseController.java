@@ -49,42 +49,35 @@ public interface IOcpCrudBaseController<T extends IOcpCrudBaseDo,I extends IOcpC
     default I getCrudBaseService(){
         return (I) OcpSpringUtil.getBean(OcpGenericsUtils.getControllerSuperClassGenericsType(getClass(), IOcpCrudBaseService.class));
     }
-    @RequestMapping(value = "add",method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     default OcpJsonResponse add(@RequestBody T t) {
         T r= (T) getCrudBaseService().save(t);
         return OcpJsonResponse.success("新增成功",r);
     }
-    @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "{id}",method = RequestMethod.DELETE)
     @ResponseBody
     default OcpJsonResponse delete(@PathVariable("id")  String id) {
         getCrudBaseService().deleteById(id);
         return OcpJsonResponse.success("删除成功");
     }
-    @RequestMapping(value = "update",method = RequestMethod.PUT)
+    @RequestMapping(method = RequestMethod.PUT)
     @ResponseBody
     default OcpJsonResponse update(@RequestBody T t) {
         T r= (T) getCrudBaseService().updateSelective(t);
         return OcpJsonResponse.success("更新成功",r);
     }
-    @RequestMapping(value = "/get/{id}",method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}",method = RequestMethod.GET)
     @ResponseBody
     default OcpJsonResponse getById(@PathVariable("id")  String id) {
         T r= (T) getCrudBaseService().getById( id);
         return OcpJsonResponse.success("查询成功",r);
     }
 
-    @RequestMapping(value = "/page",method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     default OcpJsonResponse page(OcpQueryPageBaseVo ocpQueryPageBaseVo) {
         Page<T> r=getCrudBaseService().page(ocpQueryPageBaseVo);
-        return OcpJsonResponse.success("查询成功",r);
-    }
-
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    @ResponseBody
-    default OcpJsonResponse list(OcpQueryPageBaseVo queryBaseVo) {
-        List<T> r =getCrudBaseService().list(queryBaseVo);
         return OcpJsonResponse.success("查询成功",r);
     }
 }
