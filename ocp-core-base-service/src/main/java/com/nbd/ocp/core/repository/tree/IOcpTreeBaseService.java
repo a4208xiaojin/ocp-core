@@ -23,8 +23,7 @@ package com.nbd.ocp.core.repository.tree;
 */
 
 import com.nbd.ocp.core.repository.base.IOcpBaseService;
-import com.nbd.ocp.core.repository.exception.service.ExistsDataException;
-import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpCurrentTenant;
+import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpMultiTenancy;
 import com.nbd.ocp.core.repository.request.OcpQueryPageBaseVo;
 import com.nbd.ocp.core.repository.tree.request.OcpTreeOcpQueryBaseVo;
 import org.springframework.data.domain.Page;
@@ -36,7 +35,7 @@ import java.util.List;
  * @author jhb
  */
 @org.springframework.transaction.annotation.Transactional(readOnly = true,rollbackFor = Exception.class)
-@OcpCurrentTenant
+@OcpMultiTenancy
 public  interface IOcpTreeBaseService<T extends IOcpTreeBaseDo,I extends IOcpTreeBaseDao> extends IOcpBaseService<T,I> {
 
 

@@ -25,7 +25,7 @@ package com.nbd.ocp.core.repository.crud;
 
 
 import com.nbd.ocp.core.repository.base.IOcpBaseService;
-import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpCurrentTenant;
+import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpMultiTenancy;
 import com.nbd.ocp.core.repository.request.OcpQueryPageBaseVo;
 import org.springframework.data.domain.Page;
 import java.util.List;
@@ -35,7 +35,7 @@ import java.util.List;
  * @author jhb
  */
 @org.springframework.transaction.annotation.Transactional(readOnly = true,rollbackFor = Exception.class)
-@OcpCurrentTenant
+@OcpMultiTenancy
 public interface IOcpCrudBaseService<T extends IOcpCrudBaseDo,I extends IOcpCrudBaseDao> extends IOcpBaseService<T,I> {
     T save(T crudBaseDo) ;
 

@@ -29,6 +29,7 @@ import com.nbd.ocp.core.jpa.crud.service.IOcpUserService;
 import com.nbd.ocp.core.repository.crud.IOcpCrudBaseServiceImpl;
 import com.nbd.ocp.core.repository.multiTenancy.context.OcpTenantContextHolder;
 import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpCurrentTenant;
+import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpMultiTenancy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,8 +41,8 @@ import java.util.List;
  * @author jin
  */
 @Service
+@OcpMultiTenancy
 @org.springframework.transaction.annotation.Transactional(readOnly = true,rollbackFor = Exception.class)
-@OcpCurrentTenant
 public class OcpUserServiceImpl implements IOcpUserService, IOcpCrudBaseServiceImpl<OcpUserDo, IOcpUserDao> {
     @Autowired
     IOcpUserDao userDao;

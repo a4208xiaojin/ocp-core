@@ -76,13 +76,21 @@ public class OcpCrudJpaApplicationTest {
 		System.out.println(userVO1);
 
 	}
-
+	@Test
 	public void list() {
 		OcpTenantContextHolder.setTenant("nbd1");
 		System.out.println(JSON.toJSONString(userService.findAll().size()));
 		OcpTenantContextHolder.setTenant("nbd");
 		System.out.println(JSON.toJSONString(userService.findAll().size()));
 
+	}
+	@Test
+	public void page() {
+		OcpQueryPageBaseVo ocpQueryPageBaseVo=new OcpQueryPageBaseVo();
+		ocpQueryPageBaseVo.setPageIndex(0);
+		ocpQueryPageBaseVo.setPageSize(10);
+		OcpTenantContextHolder.setTenant("nbd1");
+		System.out.println(JSON.toJSONString(userService.page(ocpQueryPageBaseVo)));
 	}
 
 	@Test

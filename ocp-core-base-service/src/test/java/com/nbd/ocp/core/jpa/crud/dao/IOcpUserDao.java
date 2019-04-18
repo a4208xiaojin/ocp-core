@@ -25,9 +25,8 @@ package com.nbd.ocp.core.jpa.crud.dao;
 
 import com.nbd.ocp.core.jpa.crud.entity.OcpUserDo;
 import com.nbd.ocp.core.repository.crud.IOcpCrudBaseDao;
-import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpCurrentTenant;
+import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpMultiTenancy;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -35,7 +34,7 @@ import java.util.List;
 /**
  * @author jin
  */
-@OcpCurrentTenant
+@OcpMultiTenancy
 public interface IOcpUserDao extends IOcpCrudBaseDao<OcpUserDo, String> {
     @Query(value = "select * from nbd_user_tenancy ",nativeQuery = true)
     List<OcpUserDo> listUsers();

@@ -26,7 +26,7 @@ package com.nbd.ocp.core.jpa.tree.service.impl;
 import com.nbd.ocp.core.jpa.tree.dao.IOcpMenuDao;
 import com.nbd.ocp.core.jpa.tree.entity.OcpMenuDo;
 import com.nbd.ocp.core.jpa.tree.service.IOcpMenuService;
-import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpCurrentTenant;
+import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpMultiTenancy;
 import com.nbd.ocp.core.repository.tree.IOcpTreeBaseServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +36,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @org.springframework.transaction.annotation.Transactional(readOnly = true,rollbackFor = Exception.class)
-@OcpCurrentTenant
+@OcpMultiTenancy
 public class OcpMenuServiceImpl implements IOcpMenuService, IOcpTreeBaseServiceImpl<OcpMenuDo, IOcpMenuDao>{
 
     @Override

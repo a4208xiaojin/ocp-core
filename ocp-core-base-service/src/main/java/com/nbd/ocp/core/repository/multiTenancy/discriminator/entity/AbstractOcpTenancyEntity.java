@@ -12,7 +12,7 @@ import javax.persistence.PreUpdate;
 
 
 /**
- * The type OcpTenant entity.
+ * The type OcpMultiTenancy entity.
  */
 
 @MappedSuperclass

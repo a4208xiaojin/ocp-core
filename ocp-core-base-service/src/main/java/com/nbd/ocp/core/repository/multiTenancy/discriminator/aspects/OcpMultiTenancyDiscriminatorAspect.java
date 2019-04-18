@@ -1,7 +1,7 @@
 package com.nbd.ocp.core.repository.multiTenancy.discriminator.aspects;
 
 import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpCurrentTenant;
-import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpTenant;
+import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpMultiTenancy;
 import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpWithoutTenant;
 import com.nbd.ocp.core.repository.multiTenancy.context.OcpTenantContextHolder;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -10,25 +10,14 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.hibernate.Session;
-import org.hibernate.query.NativeQuery;
-import org.hibernate.query.internal.NativeQueryImpl;
 import org.springframework.context.annotation.Conditional;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.query.JpaQueryMethod;
-import org.springframework.data.repository.query.ReturnedType;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Tuple;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-import java.util.Map;
 
 @Aspect
 @Component
@@ -41,7 +30,7 @@ public class OcpMultiTenancyDiscriminatorAspect {
   @Pointcut(value = "(@within(com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpCurrentTenant) || @annotation(com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpCurrentTenant))")
   void hasCurrentTenantAnnotation() {}
 
-  @Pointcut(value = "@within(com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpTenant) || @annotation(com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpTenant)")
+  @Pointcut(value = "@within(com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpMultiTenancy) || @annotation(com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpMultiTenancy)")
   void hasTenantAnnotation() {}
 
   @Pointcut(value = "@within(com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpWithoutTenant) || @annotation(com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpWithoutTenant)")
@@ -57,15 +46,15 @@ public class OcpMultiTenancyDiscriminatorAspect {
   @PersistenceContext
   public EntityManager entityManager;
 
-  @Around("execution(public * *(..)) && hasMultiTenantAnnotation() && !hasNativeQueryAnnotation()")
+  @Around("execution(public * *(..)) && hasMultiTenantAnnotation() ")
   public Object aroundExecution(ProceedingJoinPoint pjp) throws Throwable {
     Method method=getMethod(pjp);
     Annotation multiTenantAnnotation = getTenantAnnotation(method);
     if (multiTenantAnnotation != null && !(multiTenantAnnotation instanceof OcpWithoutTenant)) {
       String tenantId = OcpTenantContextHolder.getContext().getTenantId();
-      if (multiTenantAnnotation instanceof OcpTenant) {
-        tenantId = ((OcpTenant) multiTenantAnnotation).value();
-      }
+//      if (multiTenantAnnotation instanceof OcpMultiTenancy) {
+//        tenantId = ((OcpMultiTenancy) multiTenantAnnotation).value();
+//      }
       org.hibernate.Filter filter = entityManager.unwrap(Session.class).enableFilter("tenantFilter");
       filter.setParameter("tenantId", tenantId);
       filter.validate();
@@ -73,27 +62,27 @@ public class OcpMultiTenancyDiscriminatorAspect {
     return pjp.proceed();
   }
 
-  @Around(value="execution(public * *(..)) && hasMultiTenantAnnotation() && hasNativeQueryAnnotation() ")
-  public Object aroundNativeExecution(ProceedingJoinPoint pjp) throws Throwable {
-    Method method=getMethod(pjp);
-    Annotation multiTenantAnnotation = getTenantAnnotation(method);
-    if (multiTenantAnnotation != null && !(multiTenantAnnotation instanceof OcpWithoutTenant) ) {
-      String tenantId = OcpTenantContextHolder.getContext().getTenantId();
-      if (multiTenantAnnotation instanceof OcpTenant) {
-        tenantId = ((OcpTenant) multiTenantAnnotation).value();
-      }
-
-//      Query queryAnnotation = method.getAnnotation(Query.class);
-//      if (queryAnnotation != null&&queryAnnotation.nativeQuery()){
-//        InvocationHandler invocationHandler = Proxy.getInvocationHandler(queryAnnotation);
-//        Field value = invocationHandler.getClass().getDeclaredField("memberValues");
-//        value.setAccessible(true);
-//        Map<String, Object> memberValues = (Map<String, Object>) value.get(invocationHandler);
-//        memberValues.put("value","test");
-//      }
-    }
-    return pjp.proceed();
-  }
+//  @Around(value="execution(public * *(..)) && hasMultiTenantAnnotation() && hasNativeQueryAnnotation() ")
+//  public Object aroundNativeExecution(ProceedingJoinPoint pjp) throws Throwable {
+//    Method method=getMethod(pjp);
+//    Annotation multiTenantAnnotation = getTenantAnnotation(method);
+//    if (multiTenantAnnotation != null && !(multiTenantAnnotation instanceof OcpWithoutTenant) ) {
+//      String tenantId = OcpTenantContextHolder.getContext().getTenantId();
+////      if (multiTenantAnnotation instanceof OcpMultiTenancy) {
+////        tenantId = ((OcpMultiTenancy) multiTenantAnnotation).value();
+////      }
+//
+////      Query queryAnnotation = method.getAnnotation(Query.class);
+////      if (queryAnnotation != null&&queryAnnotation.nativeQuery()){
+////        InvocationHandler invocationHandler = Proxy.getInvocationHandler(queryAnnotation);
+////        Field value = invocationHandler.getClass().getDeclaredField("memberValues");
+////        value.setAccessible(true);
+////        Map<String, Object> memberValues = (Map<String, Object>) value.get(invocationHandler);
+////        memberValues.put("value","test");
+////      }
+//    }
+//    return pjp.proceed();
+//  }
 
   private Method getMethod(ProceedingJoinPoint pjp){
     final MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
@@ -115,7 +104,7 @@ public class OcpMultiTenancyDiscriminatorAspect {
     if (annotation != null) {
       return annotation;
     }
-    annotation = element.getAnnotation(OcpTenant.class);
+    annotation = element.getAnnotation(OcpMultiTenancy.class);
     if (annotation != null) {
       return annotation;
     }
