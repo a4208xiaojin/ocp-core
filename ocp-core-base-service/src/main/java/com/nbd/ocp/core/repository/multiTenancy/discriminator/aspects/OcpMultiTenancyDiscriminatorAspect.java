@@ -3,7 +3,7 @@ package com.nbd.ocp.core.repository.multiTenancy.discriminator.aspects;
 import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpCurrentTenant;
 import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpMultiTenancy;
 import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpWithoutTenant;
-import com.nbd.ocp.core.repository.multiTenancy.context.OcpTenantContextHolder;
+import com.nbd.ocp.core.repository.context.OcpTenantContextHolder;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;

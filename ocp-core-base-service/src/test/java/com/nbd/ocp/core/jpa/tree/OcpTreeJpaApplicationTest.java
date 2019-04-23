@@ -5,7 +5,7 @@ import com.nbd.ocp.core.jpa.tree.entity.OcpMenuDo;
 import com.nbd.ocp.core.jpa.tree.service.IOcpMenuService;
 import com.nbd.ocp.core.repository.base.repository.OcpRepositoryImpl;
 import com.nbd.ocp.core.repository.exception.service.ExistsDataException;
-import com.nbd.ocp.core.repository.multiTenancy.context.OcpTenantContextHolder;
+import com.nbd.ocp.core.repository.context.OcpTenantContextHolder;
 import com.nbd.ocp.core.repository.tree.request.OcpTreeOcpQueryBaseVo;
 import org.junit.Before;
 import org.junit.Test;

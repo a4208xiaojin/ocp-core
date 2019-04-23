@@ -27,8 +27,6 @@ import com.nbd.ocp.core.jpa.crud.dao.IOcpUserDao;
 import com.nbd.ocp.core.jpa.crud.entity.OcpUserDo;
 import com.nbd.ocp.core.jpa.crud.service.IOcpUserService;
 import com.nbd.ocp.core.repository.crud.IOcpCrudBaseServiceImpl;
-import com.nbd.ocp.core.repository.multiTenancy.context.OcpTenantContextHolder;
-import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpCurrentTenant;
 import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpMultiTenancy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

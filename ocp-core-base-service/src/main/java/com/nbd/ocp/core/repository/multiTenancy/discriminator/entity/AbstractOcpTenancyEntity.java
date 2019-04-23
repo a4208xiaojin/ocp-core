@@ -1,6 +1,6 @@
 package com.nbd.ocp.core.repository.multiTenancy.discriminator.entity;
 
-import com.nbd.ocp.core.repository.multiTenancy.context.OcpTenantContextHolder;
+import com.nbd.ocp.core.repository.context.OcpTenantContextHolder;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.ParamDef;

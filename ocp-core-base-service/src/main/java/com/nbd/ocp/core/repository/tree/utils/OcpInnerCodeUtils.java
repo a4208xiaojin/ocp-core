@@ -1,6 +1,6 @@
 package com.nbd.ocp.core.repository.tree.utils;
 
-import com.nbd.ocp.core.repository.multiTenancy.context.OcpTenantContextHolder;
+import com.nbd.ocp.core.repository.context.OcpTenantContextHolder;
 import com.nbd.ocp.core.repository.tree.IOcpTreeBaseService;
 import com.nbd.ocp.core.repository.utils.OcpSpringUtil;
 import com.nbd.ocp.core.utils.number.OcpNumberBaseConversionUtils;

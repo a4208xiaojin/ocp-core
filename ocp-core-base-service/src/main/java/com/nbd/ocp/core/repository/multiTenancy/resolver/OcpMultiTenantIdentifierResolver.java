@@ -1,6 +1,6 @@
 package com.nbd.ocp.core.repository.multiTenancy.resolver;
 
-import com.nbd.ocp.core.repository.multiTenancy.context.OcpTenantContextHolder;
+import com.nbd.ocp.core.repository.context.OcpTenantContextHolder;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 
 /**

@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.repository.multiTenancy.context;
+package com.nbd.ocp.core.repository.context;
 
 import org.springframework.core.NamedThreadLocal;
 
@@ -33,7 +33,4 @@ public abstract class OcpTenantContextHolder {
     tenants.set(ocpTenantContext);
   }
 
-  public static String getTenantSql(){
-    return "tenantId = 1";
-  }
 }

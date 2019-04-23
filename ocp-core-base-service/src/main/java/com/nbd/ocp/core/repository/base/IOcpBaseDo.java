@@ -45,4 +45,14 @@ public interface IOcpBaseDo extends Serializable {
      * @return id
      */
     String getId();
+
+
+    /**
+     * 系统id
+     * @Column(name="sys_id")
+     * @return 系统id
+     */
+    String getSysId();
+    void setSysId(String sysId);
+
 }

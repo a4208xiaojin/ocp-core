@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.repository.multiTenancy.context;
+package com.nbd.ocp.core.repository.context;
 
 
 import lombok.AllArgsConstructor;

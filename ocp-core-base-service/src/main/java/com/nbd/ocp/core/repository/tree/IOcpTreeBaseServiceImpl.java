@@ -42,7 +42,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -79,6 +81,7 @@ public  interface IOcpTreeBaseServiceImpl<T extends IOcpTreeBaseDo,I extends IOc
         if(t==null|| StringUtils.isNotEmpty(t.getId())){
             throw new ExistsDataException("数据已存在不允许新增","数据已存在不允许新增");
         }
+        beforeSave(t);
         /** 获取内部码 */
         t.setInnerCode(OcpInnerCodeUtils.getRedisKey(getInnerCodeKey(),this));
         String cascadeInnerCode;
@@ -97,11 +100,12 @@ public  interface IOcpTreeBaseServiceImpl<T extends IOcpTreeBaseDo,I extends IOc
         }
         /** 设置级联内部码表示树的结构 */
         t.setCascadeInnerCode(cascadeInnerCode);
-
         T r= (T) getTreeBaseDao().save(t);
+        afterSave(r,t);
         return r;
     }
-
+    default void beforeSave(T t){}
+    default void afterSave(T tSaved,T tSubmit){}
     /**
      * 批量保存。循环调用save方法。 TODO 开启事务采用批量提交。
      * @param list
@@ -114,14 +118,34 @@ public  interface IOcpTreeBaseServiceImpl<T extends IOcpTreeBaseDo,I extends IOc
         if(list==null|list.size()<1){
             return null;
         }
+        beforeSaveAll(list);
         List<T> result=new ArrayList<>();
         for(T t:list){
             result.add(save(t));
         }
+        afterSaveAll(list,result);
         return result;
     }
 
+    default void beforeSaveAll(List<T> list){}
+    default void afterSaveAll(List<T> listSubmit,List<T> listSaved){}
 
+    @Override
+    @javax.transaction.Transactional(rollbackOn = Exception.class)
+    default  void deleteById(String id) {
+        T doDB=getById(id);
+        beforeDeleteById(id,doDB);
+        if(doDB==null){
+            return ;
+        }else if(hasChildren(doDB.getCascadeInnerCode())){
+            throw new TreeException(TreeException.TREE_HAS_CHILDREN_CANNOT_DELETE,TreeException.TREE_HAS_CHILDREN_CANNOT_DELETE_MSG);
+        }else{
+            getTreeBaseDao().delete(doDB);
+        }
+        afterDeleteById(id,doDB);
+    }
+    default void beforeDeleteById(String id,T t){}
+    default void afterDeleteById(String id,T t){}
     /**
      * 更新节点信息
      * 1、
@@ -135,6 +159,7 @@ public  interface IOcpTreeBaseServiceImpl<T extends IOcpTreeBaseDo,I extends IOc
             throw new TreeException(TreeException.TREE_PARENT_IS_SELF,TreeException.TREE_PARENT_IS_SELF_MSG);
         }
         T treeDoDb=getById(t.getId());
+        beforeUpdate(t,treeDoDb);
         String cascadeInnerCode;
         /**根节点为虚拟节点默认设置为root*/
         if(StringUtils.isEmpty(t.getPid())|| OcpTreeBaseConstant.TREE_ROOT_ID.equals(t.getPid())){
@@ -163,46 +188,56 @@ public  interface IOcpTreeBaseServiceImpl<T extends IOcpTreeBaseDo,I extends IOc
         }
         OcpBeanCompareUtils.combineSydwCore(t,treeDoDb);
         T r = (T) getTreeBaseDao().save(treeDoDb);
+        afterUpdate(t,treeDoDb,r);
         return r;
     }
+    default void beforeUpdate(T tSubmit,T tInDb){}
+    default void afterUpdate(T tSubmit,T tInDb,T tSaved){}
 
 
-
-    @Override
-    @javax.transaction.Transactional(rollbackOn = Exception.class)
-    default  void deleteById(String id) {
-        T doDB=getById(id);
-        if(doDB==null){
-            return ;
-        }else if(hasChildren(doDB.getCascadeInnerCode())){
-            throw new TreeException(TreeException.TREE_HAS_CHILDREN_CANNOT_DELETE,TreeException.TREE_HAS_CHILDREN_CANNOT_DELETE_MSG);
-        }else{
-            getTreeBaseDao().delete(doDB);
-        }
-    }
     @Override
     default T getById(String id) {
         Optional<T> optionalT =getTreeBaseDao().findOne((Specification<T>) (root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(criteriaBuilder.equal(root.get(OcpCrudBaseDoConstant.DB_COLUMN_ID).as(String.class),id));
+            Predicate predicate=beforeGetById(root,criteriaBuilder,id);
+            if(predicate!=null){
+                predicates.add(predicate);
+            }
             return criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()])).getRestriction();
         });
         T r=null;
         if(optionalT.isPresent()){
             r=optionalT.get();
         }
+        afterGetById(r);
         return r;
 
     }
+    default Predicate beforeGetById(Root<T> root, CriteriaBuilder criteriaBuilder, String id){
+        return null;
+    }
+    default void afterGetById(T r){}
 
     @Override
     default Page<T> page(final OcpQueryPageBaseVo ocpQueryPageBaseVo) {
-        return getTreeBaseDao().page(ocpQueryPageBaseVo);
+        beforePage(ocpQueryPageBaseVo);
+        Page<T> page= getTreeBaseDao().page(ocpQueryPageBaseVo);
+        afterPage(page,ocpQueryPageBaseVo);
+        return page;
     }
+    default  void beforePage(OcpQueryPageBaseVo ocpQueryPageBaseVo){}
+    default  void afterPage(Page<T> page,OcpQueryPageBaseVo ocpQueryPageBaseVo){ }
+
     @Override
     default List<T> list(OcpQueryPageBaseVo queryBaseVo) {
-        return getTreeBaseDao().list(queryBaseVo);
+        beforeList(queryBaseVo);
+        List<T> list= (List<T>) getTreeBaseDao().list(queryBaseVo);
+        afterList(list,queryBaseVo);
+        return list;
     }
+    default  void beforeList(OcpQueryPageBaseVo ocpQueryPageBaseVo){}
+    default  void afterList(List<T> list,OcpQueryPageBaseVo queryBaseVo){}
 
     /**
      * 获取所有已生成的innercode中的最大值

@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.nbd.ocp.core.jpa.crud.entity.OcpUserDo;
 import com.nbd.ocp.core.jpa.crud.service.IOcpUserService;
 import com.nbd.ocp.core.repository.base.repository.OcpJpaRepositoryFactoryBean;
-import com.nbd.ocp.core.repository.multiTenancy.context.OcpTenantContextHolder;
+import com.nbd.ocp.core.repository.context.OcpTenantContextHolder;
 import com.nbd.ocp.core.repository.request.OcpQueryPageBaseConstant;
 import com.nbd.ocp.core.repository.request.OcpQueryPageBaseVo;
 import com.nbd.ocp.core.utils.uri.OcpUriParamUtil;

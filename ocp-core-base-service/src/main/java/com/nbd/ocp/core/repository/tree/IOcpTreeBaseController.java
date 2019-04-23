@@ -80,7 +80,7 @@ public interface IOcpTreeBaseController<T extends IOcpTreeBaseDo,I extends IOcpT
         Page<T> r=getTreeBaseService().page(ocpQueryPageBaseVo);
         return OcpJsonResponse.success("查询成功",r);
     }
-    @RequestMapping(value = "/list-tree", method = RequestMethod.GET)
+    @RequestMapping(value = "tree", method = RequestMethod.GET)
     @ResponseBody
     default OcpJsonResponse listTree(OcpTreeOcpQueryBaseVo treeQueryBaseVo) {
         try {
