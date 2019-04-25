@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.repository.properties;
+package com.nbd.ocp.core.context.properties;
 /*
                        _ooOoo_
                       o8888888o

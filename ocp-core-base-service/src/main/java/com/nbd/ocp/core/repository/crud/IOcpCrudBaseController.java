@@ -23,12 +23,11 @@ package com.nbd.ocp.core.repository.crud;
 */
 
 
+import com.nbd.ocp.core.context.util.OcpSpringUtil;
 import com.nbd.ocp.core.repository.base.IOcpBaseController;
-import com.nbd.ocp.core.repository.exception.service.ServiceException;
 import com.nbd.ocp.core.repository.request.OcpQueryPageBaseVo;
 import com.nbd.ocp.core.repository.response.OcpJsonResponse;
 import com.nbd.ocp.core.repository.utils.OcpGenericsUtils;
-import com.nbd.ocp.core.repository.utils.OcpSpringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -38,7 +37,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
 
 /**
  * @author jin

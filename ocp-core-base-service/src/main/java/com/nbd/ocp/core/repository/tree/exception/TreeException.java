@@ -23,7 +23,7 @@ package com.nbd.ocp.core.repository.tree.exception;
 */
 
 
-import com.nbd.ocp.core.repository.exception.system.SystemException;
+import com.nbd.ocp.core.exception.system.SystemException;
 
 /**
  * 树形结构操作异常

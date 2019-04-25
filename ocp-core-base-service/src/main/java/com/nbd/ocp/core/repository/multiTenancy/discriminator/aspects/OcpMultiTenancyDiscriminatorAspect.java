@@ -1,9 +1,9 @@
 package com.nbd.ocp.core.repository.multiTenancy.discriminator.aspects;
 
+import com.nbd.ocp.core.context.threadlocal.InvocationInfoProxy;
 import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpCurrentTenant;
 import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpMultiTenancy;
 import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpWithoutTenant;
-import com.nbd.ocp.core.repository.context.OcpTenantContextHolder;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -51,7 +51,7 @@ public class OcpMultiTenancyDiscriminatorAspect {
     Method method=getMethod(pjp);
     Annotation multiTenantAnnotation = getTenantAnnotation(method);
     if (multiTenantAnnotation != null && !(multiTenantAnnotation instanceof OcpWithoutTenant)) {
-      String tenantId = OcpTenantContextHolder.getContext().getTenantId();
+      String tenantId = InvocationInfoProxy.getTenantId();
 //      if (multiTenantAnnotation instanceof OcpMultiTenancy) {
 //        tenantId = ((OcpMultiTenancy) multiTenantAnnotation).value();
 //      }

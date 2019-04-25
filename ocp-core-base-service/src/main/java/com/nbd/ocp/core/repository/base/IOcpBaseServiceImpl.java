@@ -24,8 +24,8 @@ package com.nbd.ocp.core.repository.base;
 */
 
 
+import com.nbd.ocp.core.context.util.OcpSpringUtil;
 import com.nbd.ocp.core.repository.utils.OcpGenericsUtils;
-import com.nbd.ocp.core.repository.utils.OcpSpringUtil;
 
 
 /**

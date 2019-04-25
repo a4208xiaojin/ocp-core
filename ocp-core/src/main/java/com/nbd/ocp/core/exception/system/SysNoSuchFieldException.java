@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.repository.base;
+package com.nbd.ocp.core.exception.system;
 /*
                        _ooOoo_
                       o8888888o
@@ -23,15 +23,30 @@ package com.nbd.ocp.core.repository.base;
 */
 
 
-import com.nbd.ocp.core.context.util.OcpSpringUtil;
-import com.nbd.ocp.core.repository.utils.OcpGenericsUtils;
+import com.nbd.ocp.core.exception.system.SystemException;
+import com.nbd.ocp.core.exception.system.code.SystemExceptionCodeConstant;
 
 /**
  * @author jin
  */
+public class SysNoSuchFieldException extends SystemException {
+    public SysNoSuchFieldException(Throwable t, String responseMsg) {
+        super(t,responseMsg);
+    }
+    public SysNoSuchFieldException(String message) {
+        super(message);
+    }
 
-public interface IOcpBaseController<T extends IOcpBaseDo,I extends IOcpBaseService> {
-    default I getBaseService(){
-        return (I) OcpSpringUtil.getBean(OcpGenericsUtils.getControllerSuperClassGenericsType(getClass(), IOcpBaseService.class));
+    public SysNoSuchFieldException(String message, String responseMsg) {
+        super(message, responseMsg);
+    }
+
+    public SysNoSuchFieldException(String code, String message, String responseMsg) {
+        super(message, responseMsg);
+        setCode(code);
+    }
+    @Override
+    public String errorCode() {
+        return SystemExceptionCodeConstant.NO_SUCH_FIELD;
     }
 }

@@ -1,6 +1,6 @@
 package com.nbd.ocp.core.repository.multiTenancy.discriminator.entity;
 
-import com.nbd.ocp.core.repository.context.OcpTenantContextHolder;
+import com.nbd.ocp.core.context.threadlocal.InvocationInfoProxy;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.ParamDef;
@@ -31,7 +31,7 @@ public abstract class AbstractOcpTenancyEntity  {
   @PreUpdate
   @PreRemove
   public void onPrePersist() {
-    setTenantId(OcpTenantContextHolder.getContext().getTenantId());
+    setTenantId(InvocationInfoProxy.getTenantId());
   }
 
 }

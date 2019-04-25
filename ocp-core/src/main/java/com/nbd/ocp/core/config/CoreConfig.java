@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.repository.exception.service;
+package com.nbd.ocp.core.config;
 /*
                        _ooOoo_
                       o8888888o
@@ -23,23 +23,14 @@ package com.nbd.ocp.core.repository.exception.service;
 */
 
 
-import com.nbd.ocp.core.repository.exception.service.code.ServiceExceptionCodeConstant;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
-public class NullDataException extends ServiceException {
-    public NullDataException(Throwable t,String responseMsg) {
-        super(t,responseMsg);
-    }
+/**
+ * @author jin
+ */
+@Configuration
+@ComponentScan(basePackages="com.nbd.ocp.core.config")
+public class CoreConfig {
 
-    public NullDataException(String message) {
-        super(message);
-    }
-
-    public NullDataException(String message, String responseMsg) {
-        super(message, responseMsg);
-    }
-
-    @Override
-    public String errorCode() {
-        return ServiceExceptionCodeConstant.NULL;
-    }
 }

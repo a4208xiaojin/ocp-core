@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.repository.exception.system;
+package com.nbd.ocp.core.exception.service;
 /*
                        _ooOoo_
                       o8888888o
@@ -22,21 +22,24 @@ package com.nbd.ocp.core.repository.exception.system;
              佛祖保佑       永无BUG
 */
 
-import com.nbd.base.exception.system.code.SystemExceptionCodeConstant;
 
-public class ExistsDataException extends SystemException {
+import com.nbd.ocp.core.exception.service.code.ServiceExceptionCodeConstant;
 
-    public ExistsDataException(Throwable t, String responseMsg) {
+public class NullDataException extends ServiceException {
+    public NullDataException(Throwable t,String responseMsg) {
         super(t,responseMsg);
     }
-    public ExistsDataException(String message) {
+
+    public NullDataException(String message) {
         super(message);
     }
-    public ExistsDataException(String message, String responseMsg) {
+
+    public NullDataException(String message, String responseMsg) {
         super(message, responseMsg);
     }
+
     @Override
     public String errorCode() {
-        return SystemExceptionCodeConstant.EXISTS_DATA;
+        return ServiceExceptionCodeConstant.NULL;
     }
 }

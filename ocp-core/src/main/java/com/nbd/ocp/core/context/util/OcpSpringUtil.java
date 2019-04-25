@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.repository.utils;
+package com.nbd.ocp.core.context.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.repository.exception.service;
+package com.nbd.ocp.core.exception.service.code;
 /*
                        _ooOoo_
                       o8888888o
@@ -22,22 +22,12 @@ package com.nbd.ocp.core.repository.exception.service;
              佛祖保佑       永无BUG
 */
 
+public class ServiceExceptionCodeConstant {
+    /**数据值不唯一*/
+    public static final String DEFAULT_BUSI="000";
+    /**数据不存在*/
+    public static final String NULL="001";
+    /**数据已存在*/
+    public static final String EXISTS_DATA="002";
 
-import com.nbd.ocp.core.repository.exception.service.code.ServiceExceptionCodeConstant;
-
-public class ExistsDataException extends ServiceException {
-
-    public ExistsDataException(Throwable t,String responseMsg) {
-        super(t,responseMsg);
-    }
-    public ExistsDataException(String message) {
-        super(message);
-    }
-    public ExistsDataException(String message, String responseMsg) {
-        super(message, responseMsg);
-    }
-    @Override
-    public String errorCode() {
-        return ServiceExceptionCodeConstant.EXISTS_DATA;
-    }
 }

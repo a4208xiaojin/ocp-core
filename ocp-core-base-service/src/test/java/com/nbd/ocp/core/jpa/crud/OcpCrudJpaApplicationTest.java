@@ -2,10 +2,10 @@ package com.nbd.ocp.core.jpa.crud;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.nbd.ocp.core.context.threadlocal.InvocationInfoProxy;
 import com.nbd.ocp.core.jpa.crud.entity.OcpUserDo;
 import com.nbd.ocp.core.jpa.crud.service.IOcpUserService;
 import com.nbd.ocp.core.repository.base.repository.OcpJpaRepositoryFactoryBean;
-import com.nbd.ocp.core.repository.context.OcpTenantContextHolder;
 import com.nbd.ocp.core.repository.request.OcpQueryPageBaseConstant;
 import com.nbd.ocp.core.repository.request.OcpQueryPageBaseVo;
 import com.nbd.ocp.core.utils.uri.OcpUriParamUtil;
@@ -56,7 +56,7 @@ public class OcpCrudJpaApplicationTest {
 
 
 	public void save() {
-		OcpTenantContextHolder.setTenant("nbd1");
+		InvocationInfoProxy.setTenantId("nbd1");
 		OcpUserDo userDO =new OcpUserDo();
 		userDO.setUserName("aaa");
 		userDO.setUserCode("bbb");
@@ -66,7 +66,7 @@ public class OcpCrudJpaApplicationTest {
 		userDO.setLocked(false);
 		OcpUserDo userVO =userService.save(userDO);
 		System.out.println(userVO);
-		OcpTenantContextHolder.setTenant("nbd");
+		InvocationInfoProxy.setTenantId("nbd");
 		OcpUserDo userDO1 =new OcpUserDo();
 		userDO1.setEmail("d");
 		userDO1.setPassword("ddd");
@@ -78,9 +78,9 @@ public class OcpCrudJpaApplicationTest {
 	}
 	@Test
 	public void list() {
-		OcpTenantContextHolder.setTenant("nbd1");
+		InvocationInfoProxy.setTenantId("nbd1");
 		System.out.println(JSON.toJSONString(userService.findAll().size()));
-		OcpTenantContextHolder.setTenant("nbd");
+		InvocationInfoProxy.setTenantId("nbd");
 		System.out.println(JSON.toJSONString(userService.findAll().size()));
 
 	}
@@ -89,7 +89,7 @@ public class OcpCrudJpaApplicationTest {
 		OcpQueryPageBaseVo ocpQueryPageBaseVo=new OcpQueryPageBaseVo();
 		ocpQueryPageBaseVo.setPageIndex(0);
 		ocpQueryPageBaseVo.setPageSize(10);
-		OcpTenantContextHolder.setTenant("nbd1");
+		InvocationInfoProxy.setTenantId("nbd1");
 		System.out.println(JSON.toJSONString(userService.page(ocpQueryPageBaseVo)));
 	}
 

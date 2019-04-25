@@ -1,7 +1,8 @@
 package com.nbd.ocp.core.repository.multiTenancy.resolver;
 
-import com.nbd.ocp.core.repository.context.OcpTenantContextHolder;
+import com.nbd.ocp.core.context.threadlocal.InvocationInfoProxy;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
+import org.springframework.util.StringUtils;
 
 /**
  * 这个类是由Hibernate提供的用于识别tenantId的类，当每次执行sql语句被拦截就会调用这个类中的方法来获取tenantId
@@ -13,7 +14,8 @@ public class OcpMultiTenantIdentifierResolver implements CurrentTenantIdentifier
     // 获取tenantId的逻辑在这个方法里面写
     @Override
     public String resolveCurrentTenantIdentifier() {
-        return OcpTenantContextHolder.getContext().getTenantId();
+        String tenantId=InvocationInfoProxy.getTenantId();
+        return StringUtils.isEmpty(tenantId)?"default":tenantId;
     }
 
     @Override

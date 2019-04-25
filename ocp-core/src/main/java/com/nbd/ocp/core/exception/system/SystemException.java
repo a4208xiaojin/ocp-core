@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.repository.exception.system;
+package com.nbd.ocp.core.exception.system;
 
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;

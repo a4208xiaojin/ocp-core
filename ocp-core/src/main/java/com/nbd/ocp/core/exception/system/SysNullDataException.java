@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.repository.exception.system;
+package com.nbd.ocp.core.exception.system;
 /*
                        _ooOoo_
                       o8888888o
@@ -23,29 +23,23 @@ package com.nbd.ocp.core.repository.exception.system;
 */
 
 
-import com.nbd.base.exception.system.code.SystemExceptionCodeConstant;
+import com.nbd.ocp.core.exception.system.code.SystemExceptionCodeConstant;
 
-/**
- * @author jin
- */
-public class SysClassNotFoundException extends SystemException {
-    public SysClassNotFoundException(Throwable t, String responseMsg) {
+public class SysNullDataException extends SystemException {
+    public SysNullDataException(Throwable t, String responseMsg) {
         super(t,responseMsg);
     }
-    public SysClassNotFoundException(String message) {
+
+    public SysNullDataException(String message) {
         super(message);
     }
 
-    public SysClassNotFoundException(String message, String responseMsg) {
+    public SysNullDataException(String message, String responseMsg) {
         super(message, responseMsg);
     }
 
-    public SysClassNotFoundException(String code, String message, String responseMsg) {
-        super(message, responseMsg);
-        setCode(code);
-    }
     @Override
     public String errorCode() {
-        return SystemExceptionCodeConstant.CLASS_NO_FOUND;
+        return SystemExceptionCodeConstant.NULL;
     }
 }

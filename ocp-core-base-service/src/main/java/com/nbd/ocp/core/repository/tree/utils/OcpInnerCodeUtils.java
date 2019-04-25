@@ -1,8 +1,8 @@
 package com.nbd.ocp.core.repository.tree.utils;
 
-import com.nbd.ocp.core.repository.context.OcpTenantContextHolder;
+import com.nbd.ocp.core.context.threadlocal.InvocationInfoProxy;
+import com.nbd.ocp.core.context.util.OcpSpringUtil;
 import com.nbd.ocp.core.repository.tree.IOcpTreeBaseService;
-import com.nbd.ocp.core.repository.utils.OcpSpringUtil;
 import com.nbd.ocp.core.utils.number.OcpNumberBaseConversionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -59,7 +59,7 @@ public class OcpInnerCodeUtils {
         }
 
         StringRedisTemplate redisTemplate = OcpSpringUtil.getBean(StringRedisTemplate.class);
-        String tenantId=OcpTenantContextHolder.getContext().getTenantId();
+        String tenantId= InvocationInfoProxy.getTenantId();
         if(StringUtils.isNotEmpty(tenantId)){
             innerCodeKey+=("."+tenantId);
         }

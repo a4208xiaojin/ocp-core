@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.repository.exception.service;
+package com.nbd.ocp.core.exception.system;
 /*
                        _ooOoo_
                       o8888888o
@@ -23,26 +23,22 @@ package com.nbd.ocp.core.repository.exception.service;
 */
 
 
-import com.nbd.ocp.core.repository.exception.service.code.ServiceExceptionCodeConstant;
+import com.nbd.ocp.core.exception.system.SystemException;
+import com.nbd.ocp.core.exception.system.code.SystemExceptionCodeConstant;
 
-public class BusiException extends ServiceException {
-    public BusiException(Throwable t,String responseMsg) {
+public class ExistsDataException extends SystemException {
+
+    public ExistsDataException(Throwable t, String responseMsg) {
         super(t,responseMsg);
     }
-    public BusiException(String message) {
+    public ExistsDataException(String message) {
         super(message);
     }
-
-    public BusiException(String message, String responseMsg) {
+    public ExistsDataException(String message, String responseMsg) {
         super(message, responseMsg);
-    }
-
-    public BusiException(String code,String message, String responseMsg) {
-        super(message, responseMsg);
-        setCode(code);
     }
     @Override
     public String errorCode() {
-        return ServiceExceptionCodeConstant.DEFAULT_BUSI;
+        return SystemExceptionCodeConstant.EXISTS_DATA;
     }
 }

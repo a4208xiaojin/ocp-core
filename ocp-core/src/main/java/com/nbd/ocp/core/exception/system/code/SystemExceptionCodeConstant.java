@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.repository.exception.system;
+package com.nbd.ocp.core.exception.system.code;
 /*
                        _ooOoo_
                       o8888888o
@@ -22,30 +22,12 @@ package com.nbd.ocp.core.repository.exception.system;
              佛祖保佑       永无BUG
 */
 
+public class SystemExceptionCodeConstant {
+    public static final String CLASS_NO_FOUND="100";
+    public static final String NO_SUCH_FIELD="101";
+    public static final String ILLEGAL_ACCESS="102";
+    /**数据已存在*/
+    public static final String EXISTS_DATA="103";
 
-import com.nbd.base.exception.system.code.SystemExceptionCodeConstant;
-
-/**
- * @author jin
- */
-public class SysNoSuchFieldException extends SystemException {
-    public SysNoSuchFieldException(Throwable t, String responseMsg) {
-        super(t,responseMsg);
-    }
-    public SysNoSuchFieldException(String message) {
-        super(message);
-    }
-
-    public SysNoSuchFieldException(String message, String responseMsg) {
-        super(message, responseMsg);
-    }
-
-    public SysNoSuchFieldException(String code, String message, String responseMsg) {
-        super(message, responseMsg);
-        setCode(code);
-    }
-    @Override
-    public String errorCode() {
-        return SystemExceptionCodeConstant.NO_SUCH_FIELD;
-    }
+    public static final String NULL="104";
 }

@@ -1,11 +1,10 @@
 package com.nbd.ocp.core.jpa.tree;
 
 import com.alibaba.fastjson.JSON;
+import com.nbd.ocp.core.context.threadlocal.InvocationInfoProxy;
 import com.nbd.ocp.core.jpa.tree.entity.OcpMenuDo;
 import com.nbd.ocp.core.jpa.tree.service.IOcpMenuService;
 import com.nbd.ocp.core.repository.base.repository.OcpRepositoryImpl;
-import com.nbd.ocp.core.repository.exception.service.ExistsDataException;
-import com.nbd.ocp.core.repository.context.OcpTenantContextHolder;
 import com.nbd.ocp.core.repository.tree.request.OcpTreeOcpQueryBaseVo;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,8 +42,8 @@ public class OcpTreeJpaApplicationTest {
 	}
 
 	@Test
-	public void add() throws ExistsDataException {
-		OcpTenantContextHolder.setTenant("nbd1");
+	public void add(){
+		InvocationInfoProxy.setTenantId("nbd1");
 		OcpMenuDo ocpMenuDo = new OcpMenuDo();
 		ocpMenuDo.setMenuCode("ddd");
 		ocpMenuDo.setMenuName("dddd");
@@ -62,7 +61,7 @@ public class OcpTreeJpaApplicationTest {
 
 	@Test
 	public void update() {
-		OcpTenantContextHolder.setTenant("nbd1");
+		InvocationInfoProxy.setTenantId("nbd1");
 		OcpMenuDo ocpMenuDo = menuService.getById("ff80808169eb68090169eb681a4f0000");
 		ocpMenuDo.setPid(null);
 		System.out.println(JSON.toJSONString(menuService.updateSelective(ocpMenuDo)));
@@ -70,7 +69,7 @@ public class OcpTreeJpaApplicationTest {
 
 	@Test
 	public void testListTree() {
-		OcpTenantContextHolder.setTenant("nbd1");
+		InvocationInfoProxy.setTenantId("nbd1");
 		OcpTreeOcpQueryBaseVo treeQueryBaseVo = new OcpTreeOcpQueryBaseVo();
 		treeQueryBaseVo.setPid("root");
 		System.out.println(JSON.toJSONString(menuService.listTree(treeQueryBaseVo)));
@@ -78,17 +77,17 @@ public class OcpTreeJpaApplicationTest {
 
 	@Test
 	public void testHasChildren() {
-		OcpTenantContextHolder.setTenant("nbd1");
+		InvocationInfoProxy.setTenantId("nbd1");
 		System.out.println(JSON.toJSONString(menuService.hasChildren("00000C")));
 	}
 	@Test
 	public void testGetById() {
-		OcpTenantContextHolder.setTenant("nbd1");
+		InvocationInfoProxy.setTenantId("nbd1");
 		System.out.println(JSON.toJSONString(menuService.getById("ff80808169eb68090169eb681a4f0000")));
 	}
 	@Test
 	public void testDeleteId() {
-		OcpTenantContextHolder.setTenant("nbd1");
+		InvocationInfoProxy.setTenantId("nbd1");
 		menuService.deleteById("ff80808169eb66430169eb6651ab0000");
 	}
 }

@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.repository.exception.service;
+package com.nbd.ocp.core.exception.service;
 /*
                        _ooOoo_
                       o8888888o

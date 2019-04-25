@@ -1,6 +1,6 @@
 package com.nbd.ocp.core.repository.multiTenancy.provider;
 
-import com.nbd.ocp.core.repository.context.OcpTenantContextHolder;
+import com.nbd.ocp.core.context.threadlocal.InvocationInfoProxy;
 import lombok.Data;
 import org.hibernate.engine.jdbc.connections.spi.AbstractDataSourceBasedMultiTenantConnectionProviderImpl;
 import org.slf4j.Logger;
@@ -30,7 +30,7 @@ public class OcpMultiTenantConnectionProviderImpl extends AbstractDataSourceBase
 
     @Override
     protected DataSource selectAnyDataSource() {
-        return getTenantDataSource(OcpTenantContextHolder.getContext().getTenantId());
+        return getTenantDataSource(InvocationInfoProxy.getTenantId());
     }
     static {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();

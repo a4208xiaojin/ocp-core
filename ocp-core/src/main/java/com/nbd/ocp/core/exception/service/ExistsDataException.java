@@ -1,4 +1,4 @@
-package com.nbd.base.exception.system.code;
+package com.nbd.ocp.core.exception.service;
 /*
                        _ooOoo_
                       o8888888o
@@ -22,12 +22,22 @@ package com.nbd.base.exception.system.code;
              佛祖保佑       永无BUG
 */
 
-public class SystemExceptionCodeConstant {
-    public static final String CLASS_NO_FOUND="100";
-    public static final String NO_SUCH_FIELD="101";
-    public static final String ILLEGAL_ACCESS="102";
-    /**数据已存在*/
-    public static final String EXISTS_DATA="103";
 
-    public static final String NULL="104";
+import com.nbd.ocp.core.exception.service.code.ServiceExceptionCodeConstant;
+
+public class ExistsDataException extends ServiceException {
+
+    public ExistsDataException(Throwable t,String responseMsg) {
+        super(t,responseMsg);
+    }
+    public ExistsDataException(String message) {
+        super(message);
+    }
+    public ExistsDataException(String message, String responseMsg) {
+        super(message, responseMsg);
+    }
+    @Override
+    public String errorCode() {
+        return ServiceExceptionCodeConstant.EXISTS_DATA;
+    }
 }

@@ -22,9 +22,10 @@ package com.nbd.ocp.core.repository.tree;
              佛祖保佑       永无BUG
 */
 
+import com.nbd.ocp.core.context.util.OcpSpringUtil;
+import com.nbd.ocp.core.exception.system.ExistsDataException;
 import com.nbd.ocp.core.repository.base.IOcpBaseServiceImpl;
 import com.nbd.ocp.core.repository.constant.OcpCrudBaseDoConstant;
-import com.nbd.ocp.core.repository.exception.system.ExistsDataException;
 import com.nbd.ocp.core.repository.request.OcpQueryPageBaseVo;
 import com.nbd.ocp.core.repository.tree.constant.OcpTreeBaseConstant;
 import com.nbd.ocp.core.repository.tree.exception.TreeException;
@@ -32,7 +33,6 @@ import com.nbd.ocp.core.repository.tree.request.OcpTreeOcpQueryBaseVo;
 import com.nbd.ocp.core.repository.tree.utils.OcpInnerCodeUtils;
 import com.nbd.ocp.core.repository.tree.utils.OcpTreeUtils;
 import com.nbd.ocp.core.repository.utils.OcpGenericsUtils;
-import com.nbd.ocp.core.repository.utils.OcpSpringUtil;
 import com.nbd.ocp.core.utils.bean.OcpBeanCompareUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
@@ -73,7 +73,6 @@ public  interface IOcpTreeBaseServiceImpl<T extends IOcpTreeBaseDo,I extends IOc
      * 3、设置级联树的结构码
      * @param t
      * @return
-     * @throws ExistsDataException
      */
     @Override
     @javax.transaction.Transactional(rollbackOn = Exception.class)
@@ -110,7 +109,6 @@ public  interface IOcpTreeBaseServiceImpl<T extends IOcpTreeBaseDo,I extends IOc
      * 批量保存。循环调用save方法。 TODO 开启事务采用批量提交。
      * @param list
      * @return
-     * @throws ExistsDataException
      */
     @Override
     @javax.transaction.Transactional(rollbackOn = Exception.class)

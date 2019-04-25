@@ -24,11 +24,11 @@ package com.nbd.ocp.core.repository.crud;
 */
 
 
+import com.nbd.ocp.core.context.util.OcpSpringUtil;
+import com.nbd.ocp.core.exception.system.ExistsDataException;
 import com.nbd.ocp.core.repository.constant.OcpCrudBaseDoConstant;
-import com.nbd.ocp.core.repository.exception.system.ExistsDataException;
 import com.nbd.ocp.core.repository.request.OcpQueryPageBaseVo;
 import com.nbd.ocp.core.repository.utils.OcpGenericsUtils;
-import com.nbd.ocp.core.repository.utils.OcpSpringUtil;
 import com.nbd.ocp.core.utils.bean.OcpBeanCompareUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;

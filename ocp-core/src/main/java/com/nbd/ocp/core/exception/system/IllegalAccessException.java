@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.repository.exception.system;
+package com.nbd.ocp.core.exception.system;
 /*
                        _ooOoo_
                       o8888888o
@@ -23,7 +23,7 @@ package com.nbd.ocp.core.repository.exception.system;
 */
 
 
-import com.nbd.base.exception.system.code.SystemExceptionCodeConstant;
+import com.nbd.ocp.core.exception.system.code.SystemExceptionCodeConstant;
 
 /**
  * @author jin
