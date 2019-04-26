@@ -72,9 +72,5 @@
 			<groupId>com.nbd</groupId>
 			<artifactId>ocp-core-utils</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.nbd</groupId>
-			<artifactId>ocp-core-exception</artifactId>
-		</dependency>
 	</dependencies>
 </project>
