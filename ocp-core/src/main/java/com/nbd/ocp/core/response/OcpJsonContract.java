@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.repository.response;
+package com.nbd.ocp.core.response;
 
 
 

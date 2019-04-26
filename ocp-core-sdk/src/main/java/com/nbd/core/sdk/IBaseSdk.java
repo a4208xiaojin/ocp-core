@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.repository.tree.request;
+package com.nbd.core.sdk;
 /*
                        _ooOoo_
                       o8888888o
@@ -23,13 +23,10 @@ package com.nbd.ocp.core.repository.tree.request;
 */
 
 
-import com.nbd.ocp.core.request.OcpQueryPageBaseVo;
-import lombok.Data;
 
 /**
  * @author jin
  */
-@Data
-public class OcpTreeOcpQueryBaseVo extends OcpQueryPageBaseVo {
-    private String pid;
+public interface IBaseSdk {
+
 }

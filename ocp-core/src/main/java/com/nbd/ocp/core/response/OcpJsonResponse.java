@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.repository.response;
+package com.nbd.ocp.core.response;
 /*
                        _ooOoo_
                       o8888888o
@@ -27,6 +27,7 @@ package com.nbd.ocp.core.repository.response;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nbd.ocp.core.response.OcpJsonContract;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;

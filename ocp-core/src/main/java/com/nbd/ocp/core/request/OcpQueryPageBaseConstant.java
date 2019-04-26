@@ -1,4 +1,4 @@
-package com.nbd.ocp.core.repository.request;
+package com.nbd.ocp.core.request;
 /*
                        _ooOoo_
                       o8888888o

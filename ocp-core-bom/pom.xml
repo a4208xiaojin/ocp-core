@@ -12,6 +12,7 @@
 		<spring-io.version>Cairo-SR7</spring-io.version>
 		<spring-cloud.version>Finchley.SR3</spring-cloud.version>
 		<nbd.project.version>0.0.1-SNAPSHOT</nbd.project.version>
+		<sc-services.version>0.0.1-SNAPSHOT</sc-services.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -41,8 +42,18 @@
 			</dependency>
 			<dependency>
 				<groupId>com.nbd</groupId>
+				<artifactId>ocp-core-sdk</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.nbd</groupId>
 				<artifactId>ocp-core-utils</artifactId>
 				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.nbd</groupId>
+				<artifactId>sc-services-busilog-sdk</artifactId>
+				<version>${sc-services.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.alibaba</groupId>

@@ -26,7 +26,7 @@ package com.nbd.ocp.core.repository.crud;
 
 import com.nbd.ocp.core.repository.base.IOcpBaseService;
 import com.nbd.ocp.core.repository.multiTenancy.discriminator.annotations.OcpMultiTenancy;
-import com.nbd.ocp.core.repository.request.OcpQueryPageBaseVo;
+import com.nbd.ocp.core.request.OcpQueryPageBaseVo;
 import org.springframework.data.domain.Page;
 import java.util.List;
 

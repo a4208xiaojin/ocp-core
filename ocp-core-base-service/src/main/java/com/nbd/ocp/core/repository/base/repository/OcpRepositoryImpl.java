@@ -1,11 +1,10 @@
 package com.nbd.ocp.core.repository.base.repository;
 
 import com.nbd.ocp.core.repository.base.IOcpBaseDo;
-import com.nbd.ocp.core.repository.base.repository.OcpRepository;
 import com.nbd.ocp.core.repository.constant.OcpCrudBaseDoConstant;
-import com.nbd.ocp.core.repository.request.OcpQueryPageBaseConstant;
-import com.nbd.ocp.core.repository.request.OcpQueryPageBaseVo;
 import com.nbd.ocp.core.repository.utils.OcpBaseDaoUtils;
+import com.nbd.ocp.core.request.OcpQueryPageBaseConstant;
+import com.nbd.ocp.core.request.OcpQueryPageBaseVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

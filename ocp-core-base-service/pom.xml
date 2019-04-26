@@ -72,5 +72,12 @@
 			<groupId>com.nbd</groupId>
 			<artifactId>ocp-core-utils</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.nbd</groupId>
+			<artifactId>sc-services-busilog-sdk</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+
 	</dependencies>
 </project>

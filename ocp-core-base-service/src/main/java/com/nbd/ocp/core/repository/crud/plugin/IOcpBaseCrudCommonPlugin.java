@@ -25,7 +25,7 @@ package com.nbd.ocp.core.repository.crud.plugin;
 import com.nbd.ocp.core.repository.base.plugin.IOcpBaseCommonPlugin;
 import com.nbd.ocp.core.repository.crud.IOcpCrudBaseDao;
 import com.nbd.ocp.core.repository.crud.IOcpCrudBaseDo;
-import com.nbd.ocp.core.repository.request.OcpQueryPageBaseVo;
+import com.nbd.ocp.core.request.OcpQueryPageBaseVo;
 import org.springframework.data.domain.Page;
 
 import javax.persistence.criteria.CriteriaBuilder;
