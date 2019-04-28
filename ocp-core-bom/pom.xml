@@ -47,13 +47,13 @@
 			</dependency>
 			<dependency>
 				<groupId>com.nbd</groupId>
-				<artifactId>ocp-core-utils</artifactId>
+				<artifactId>ocp-core-thread</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.nbd</groupId>
-				<artifactId>sc-services-busilog-sdk</artifactId>
-				<version>${sc-services.version}</version>
+				<artifactId>ocp-core-utils</artifactId>
+				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.alibaba</groupId>

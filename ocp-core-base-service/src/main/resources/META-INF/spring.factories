@@ -1,1 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.nbd.ocp.core.repository.config.OcpRepositoryConfig

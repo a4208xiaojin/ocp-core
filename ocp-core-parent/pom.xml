@@ -94,10 +94,10 @@
 		</plugins>
 	</build>
 	<modules>
-		<module>../ocp-core-bom</module>
 		<module>../ocp-core</module>
-		<module>../ocp-core-base-service</module>
-		<module>../ocp-core-utils</module>
+		<module>../ocp-core-bom</module>
 		<module>../ocp-core-sdk</module>
+		<module>../ocp-core-thread</module>
+		<module>../ocp-core-utils</module>
 	</modules>
 </project>
